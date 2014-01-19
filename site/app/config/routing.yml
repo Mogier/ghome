@@ -1,0 +1,4 @@
+ghome_content:
+    resource: "@GhomeContentBundle/Resources/config/routing.yml"
+    prefix:   /
+

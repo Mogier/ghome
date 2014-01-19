@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Relever" table="Relever">
+    <indexes>
+      <index name="I_FK_RELEVER_PROPRIETE" columns="id_Propriete,id_DateHeure,id"/>
+      <index name="FK_RELEVER_DATEHEURE" columns="id_DateHeure"/>
+      <index name="IDX_D7D8BF64716C6517" columns="id_Propriete"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="valeur" type="string" column="valeur" length="20" nullable="true"/>
+    <many-to-one field="idPropriete" target-entity="Propriete">
+      <join-columns>
+        <join-column name="id_Propriete" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idDateheure" target-entity="Dateheure">
+      <join-columns>
+        <join-column name="id_DateHeure" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

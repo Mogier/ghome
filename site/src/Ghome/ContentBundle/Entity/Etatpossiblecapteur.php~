@@ -1,0 +1,45 @@
+<?php
+
+namespace Ghome\ContentBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Etatpossiblecapteur
+ *
+ * @ORM\Table(name="EtatPossibleCapteur", indexes={@ORM\Index(name="I_FK_ETATPOSSIBLECAPTEUR_ETAT", columns={"id_Etat"}), @ORM\Index(name="I_FK_ETATPOSSIBLECAPTEUR_ACTIONNEUR", columns={"id_Actionneur"})})
+ * @ORM\Entity
+ */
+class Etatpossiblecapteur
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \Actionneur
+     *
+     * @ORM\ManyToOne(targetEntity="Actionneur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_Actionneur", referencedColumnName="id")
+     * })
+     */
+    private $idActionneur;
+
+    /**
+     * @var \Etat
+     *
+     * @ORM\ManyToOne(targetEntity="Etat")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_Etat", referencedColumnName="id")
+     * })
+     */
+    private $idEtat;
+
+
+}

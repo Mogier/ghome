@@ -1,0 +1,32 @@
+<?php
+
+namespace Ghome\ContentBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Dateheure
+ *
+ * @ORM\Table(name="DateHeure")
+ * @ORM\Entity
+ */
+class Dateheure
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateReleve", type="datetime", nullable=false)
+     */
+    private $datereleve;
+
+
+}

@@ -1,0 +1,52 @@
+<?php
+
+namespace Ghome\ContentBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Relever
+ *
+ * @ORM\Table(name="Relever", indexes={@ORM\Index(name="I_FK_RELEVER_PROPRIETE", columns={"id_Propriete", "id_DateHeure", "id"}), @ORM\Index(name="FK_RELEVER_DATEHEURE", columns={"id_DateHeure"}), @ORM\Index(name="IDX_D7D8BF64716C6517", columns={"id_Propriete"})})
+ * @ORM\Entity
+ */
+class Relever
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valeur", type="string", length=20, nullable=true)
+     */
+    private $valeur;
+
+    /**
+     * @var \Dateheure
+     *
+     * @ORM\ManyToOne(targetEntity="Dateheure")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_DateHeure", referencedColumnName="id")
+     * })
+     */
+    private $idDateheure;
+
+    /**
+     * @var \Propriete
+     *
+     * @ORM\ManyToOne(targetEntity="Propriete")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_Propriete", referencedColumnName="id")
+     * })
+     */
+    private $idPropriete;
+
+
+}

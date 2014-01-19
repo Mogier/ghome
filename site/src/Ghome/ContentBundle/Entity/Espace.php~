@@ -1,0 +1,49 @@
+<?php
+
+namespace Ghome\ContentBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Espace
+ *
+ * @ORM\Table(name="Espace", indexes={@ORM\Index(name="I_FK_ESPACE_TYPEESPACE", columns={"id_TypeSpace"})})
+ * @ORM\Entity
+ */
+class Espace
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=32, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var \Typespace
+     *
+     * @ORM\ManyToOne(targetEntity="Typespace")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_TypeSpace", referencedColumnName="id")
+     * })
+     */
+    private $idTypespace;
+
+
+}

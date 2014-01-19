@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Actionneur" table="Actionneur">
+    <indexes>
+      <index name="I_FK_ACTIONNEUR_ETAT" columns="id_Etat"/>
+      <index name="I_FK_COMPOSANT_ESPACE_2" columns="id_Espace"/>
+    </indexes>
+    <id name="id" association-key="true"/>
+    <field name="idEtat" type="integer" column="id_Etat" nullable="false"/>
+    <field name="tramelearn" type="string" column="trameLearn" length="32" nullable="true"/>
+    <one-to-one field="id" target-entity="Etat">
+      <join-columns>
+        <join-column name="id" referenced-column-name="id"/>
+      </join-columns>
+    </one-to-one>
+    <many-to-one field="idEspace" target-entity="Espace">
+      <join-columns>
+        <join-column name="id_Espace" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
