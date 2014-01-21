@@ -9,11 +9,6 @@ class DefaultController extends Controller
 {
     public function testAction()
     {
-	$capteur = new Capteur();
-	$capteur->setIdCapteur(123);
-	$em = $this->getDoctrine()->getManager();
-	$em->persist($capteur);
-	$em->flush();
-        return $this->render('GhomeContentBundle:Default:index.html.twig');
+        return $this->render('GhomeContentBundle::accueil.html.twig');
     }
 }
