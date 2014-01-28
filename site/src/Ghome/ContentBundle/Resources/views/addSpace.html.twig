@@ -1,13 +1,28 @@
-<fieldset>
-	<form action="{{ path('ghome_content_addSpace') }}" method="post" {{ form_enctype(form) }}>
+<div class="row">
+	<ul class="nav nav-pills nav-justified">
+	  <li >
+	  	<a data-toggle="collapse" data-target="#ajout" href="#">Ajout</a>
+	  	<ul class="collapse " id="ajout">
+            <fieldset>
+				<form action="{{ path('ghome_content_addSpace') }}" method="post" {{ form_enctype(form) }}>
+				<div class="row">	
+						<legend>Formulaire d'ajout d'espace</legend>
+				</div>
+				<div class="row">	
+					<div class="col-md-3">
+						{{ form_row(form.nom, {'label': 'Nom :', 'attr' : { 'placeholder' : 'Nom' }} ) }}
+					</div>
+					<div class="col-md-6">
+						{{ form_row(form.description, {'label': 'Description :', 'attr' : { 'placeholder' : 'Description' }} ) }}
+					</div>
+				</div>
+					</form>
+				</fieldset>
+        </ul>
+	  </li>
+	  <li class="active"><a href="#">Modification</a></li>
+	  <li><a href="#">Suppression</a></li>
+	</ul>
+</div>
 
-		<div class="container well">
-			<div class="row">
-				<div class="span5">
-				<legend>Formulaire d'ajout d'adhérent</legend>
-			</div>
-			</div>
-		</div>
 
-	</form>
-</fieldset>
