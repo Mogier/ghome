@@ -8,6 +8,14 @@
         {% endblock %}
     </head>
     <body>
+        {% block bar %}
+            <div class="container">
+                <div class="navbar navbar-inverse">
+                    <a class="navbar-brand">En tête</a>
+                </div>
+            </div>
+        {% endblock %}
+
         {% block menu %} 
 
             <ul class="nav bs-sidenav">
