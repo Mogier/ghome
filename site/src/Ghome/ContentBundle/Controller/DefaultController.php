@@ -17,7 +17,7 @@ class DefaultController extends Controller
 
     	switch($idString) {
 
-    		case: "editSpace"
+    		case "editSpace":
 
     				return $this->render('GhomeContentBundle::editSpace.html.twig');
     			break;

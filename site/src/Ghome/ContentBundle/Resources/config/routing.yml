@@ -3,6 +3,6 @@ ghome_content_homepage:
     defaults: { _controller: GhomeContentBundle:Default:homepage }
 
 ghome_content_addContent:
-	pattern: /ghome/{idString}
-	defaults: { _controller: GhomeContentBundle:Default:content }
+    pattern: /ghome/{idString}
+    defaults: { _controller: GhomeContentBundle:Default:content }
 
