@@ -2,5 +2,11 @@
 
 {% block body %}
 
+	{{ form_start(form) }}
+	    {{ form_errors(form) }}
+
+	    {{ form_row(form.tramelearn) }}
+	    {{ form_row(form.espace) }}
+	{{ form_end(form) }}
 
 {% endblock %}

@@ -3,9 +3,14 @@
 namespace Ghome\ContentBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+//Entities
 use Ghome\ContentBundle\Entity\Capteur;
 use Ghome\ContentBundle\Entity\Espace;
+//Forms
 use Ghome\ContentBundle\Form\EspaceType;
+use Ghome\ContentBundle\Form\CapteurType;
+
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
@@ -14,10 +19,13 @@ class DefaultController extends Controller
         return $this->render('GhomeContentBundle::accueil.html.twig');
     }
 
-    public function addSpaceAction(Request $request)
+    public function addCapteurAction(Request $request)
     {
-        $space = new Espace();
-        $form = $this->createForm(new EspaceType(), $space);
+        $em = $this->getDoctrine()->getManager();
+        $space = $em->getRepository('GhomeContentBundle:Espace')->findAll();
+        $capteurType = new CapteurType($space);
+        $capteur = new Capteur();
+        $form = $this->createForm($capteurType, $capteur);
 
         if($request->isMethod('POST'))
         {
@@ -29,22 +37,35 @@ class DefaultController extends Controller
                 $em->persist($task);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('task_success'));
+                return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
             }
         }
 
-        return $this->render('GhomeContentBundle::addSpace.html.twig');
+        return $this->render('GhomeContentBundle::addCapteur.html.twig', array('form' => $form->createView()));
     }
 
     public function contentAction($idString)
-    {
-
+    {      
     	switch($idString) {
 
-    		case "editSpace":
-
-    				return $this->render('GhomeContentBundle::editSpace.html.twig');
-    			break;
+    		case "space":               
+                return $this->redirect($this->generateUrl('ghome_content_addSpace'));
     	}
+    }
+
+    public function addSpaceAction(Request $request)
+    {
+        //die(var_dump("expression"));
+        $em = $this->getDoctrine()->getManager();
+        $espace = new Espace();
+
+        $form = $this->createForm(new EspaceType(), $espace);
+
+        if($request->isMethod('POST')){
+            //TODO Persist in base   
+        }
+
+        return $this->render('GhomeContentBundle::addSpace.html.twig', array('form' => $form->createView(),));
+
     }
 }
