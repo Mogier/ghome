@@ -7,8 +7,20 @@ use Ghome\ContentBundle\Entity\Capteur;
 
 class DefaultController extends Controller
 {
-    public function testAction()
+    public function homepageAction()
     {
         return $this->render('GhomeContentBundle::accueil.html.twig');
+    }
+
+    public function contentAction($idString)
+    {
+
+    	switch($idString) {
+
+    		case: "editSpace"
+
+    				return $this->render('GhomeContentBundle::editSpace.html.twig');
+    			break;
+    	}
     }
 }
