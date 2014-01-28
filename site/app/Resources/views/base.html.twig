@@ -8,10 +8,59 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        <div class="container">
+        {% block bar %}
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="navbar navbar-inverse">
+                        <a class="navbar-brand">En tête</a>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+            <div class="row">
+            {% block menu %}     
+                <div class="col-md-2">
+                    <ul class="nav bs-sidenav">
+                      <li class="active">
+                        <a data-toggle="collapse" data-target="#composants" href="#">Composants</a>
+                        <ul class="collapse in" id="composants">
+                            <li>
+                                <a href="#capteurs">Capteurs</a>
+                            </li>
+                            <li>
+                                <a href="#actionneurs">Actionneurs</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                      <li><a data-toggle="collapse" data-target="#espace" href="#">Espace</a>
+                        <ul class="collapse" id="espace">
+                            <li>
+                                <a href="#edition">Edition</a>
+                            </li>
+                            <li>
+                                <a href="#visualisation">Visualisation</a>
+                            </li>
+                        </ul>
+                      </li>
+                      <li><a href="#">Historique</a></li>
+                    </ul>
+                </div>  
+            {% endblock %}
+
+            {% block body %}
+
+            {% endblock %}
+            </div>
+        </div>
         {% block javascripts %}
             <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-            <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+            {% javascripts '%kernel.root_dir%/Resources/js/*' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
     </body>
 </html>
