@@ -8,33 +8,41 @@
         {% endblock %}
     </head>
     <body>
-        {% block menu %} 
+        {% block menu %}
 
-            <ul class="nav bs-sidenav">
-              <li class="active">
-                <a data-toggle="collapse" data-target="#demo" href="#">Home</a>
-                <ul class="collapse in" id="demo">
-                    <li>
-                        <a href="#aight">aight</a>
-                    </li>
-                    <li>
-                        <a href="#Schtroumpf">Schtroumpf</a>
-                    </li>
-                </ul>
-            </li>
+        <div class="container">
 
-              <li><a data-toggle="collapse" data-target="#popof" href="#">Profile</a>
-                <ul class="collapse" id="popof">
-                    <li>
-                        <a href="#gargamel">Gargamel</a>
+            <div class="row">
+                <div class="col-md-2">
+
+                    <ul class="nav bs-sidenav">
+                      <li class="active">
+                        <a data-toggle="collapse" data-target="#composants" href="#">Composants</a>
+                        <ul class="collapse in" id="composants">
+                            <li>
+                                <a href="#capteurs">Capteurs</a>
+                            </li>
+                            <li>
+                                <a href="#actionneurs">Actionneurs</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="#spirou">Spirou</a>
-                    </li>
-                </ul>
-              </li>
-              <li><a href="#">Messages</a></li>
-            </ul>
+
+                      <li><a data-toggle="collapse" data-target="#popof" href="#">Espace</a>
+                        <ul class="collapse" id="popof">
+                            <li>
+                                <a href="#gargamel">Gargamel</a>
+                            </li>
+                            <li>
+                                <a href="#spirou">Spirou</a>
+                            </li>
+                        </ul>
+                      </li>
+                      <li><a href="#">Historique</a></li>
+                    </ul>
+                </div> 
+            </div>
+        </div>
 
         {% endblock %}
 
