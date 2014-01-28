@@ -2,7 +2,10 @@ ghome_content_homepage:
     pattern:  /ghome
     defaults: { _controller: GhomeContentBundle:Default:homepage }
 
+ghome_content_addSpace:
+    pattern: /ghome/addSpace
+    defaults: { _controller: GhomeContentBundle:Default:addSpace }
+
 ghome_content_addContent:
     pattern: /ghome/{idString}
     defaults: { _controller: GhomeContentBundle:Default:content }
-
