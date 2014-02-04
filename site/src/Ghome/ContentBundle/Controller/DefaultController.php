@@ -55,17 +55,33 @@ class DefaultController extends Controller
 
     public function addSpaceAction(Request $request)
     {
-        //die(var_dump("expression"));
         $em = $this->getDoctrine()->getManager();
         $espace = new Espace();
 
         $form = $this->createForm(new EspaceType(), $espace);
 
         if($request->isMethod('POST')){
-            //TODO Persist in base   
+
+            $form->handleRequest($request);
+
+            if ($form->isValid()) 
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($espace);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('ghome_content_addSpace'));
+            }
         }
 
-        return $this->render('GhomeContentBundle::addSpace.html.twig', array('form' => $form->createView(),));
+        return $this->render('GhomeContentBundle::addSpace.html.twig', array('form' => $form->createView()));
+    }
+
+    public function listSpacesAction(Request $request) 
+    {
+        $spaces = $this->get('ghome_content')->GetAllSpaces();
+
+        return $this->render('GhomeContentBundle::listSpaces.html.twig', array('spaces' => $spaces));
 
     }
 }
