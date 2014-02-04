@@ -70,7 +70,7 @@ class DefaultController extends Controller
                 $em->persist($espace);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('ghome_content_addSpace'));
+                return $this->redirect($this->generateUrl('ghome_content_listSpaces'));
             }
         }
 
@@ -81,7 +81,11 @@ class DefaultController extends Controller
     {
         $spaces = $this->get('ghome_content')->GetAllSpaces();
 
-        return $this->render('GhomeContentBundle::listSpaces.html.twig', array('spaces' => $spaces));
+        $espace = new Espace();
+
+        $form = $this->createForm(new EspaceType(), $espace, array('action' => $this->generateUrl('ghome_content_addSpace')));
+
+        return $this->render('GhomeContentBundle::listSpaces.html.twig', array('spaces' => $spaces, 'form' => $form->createView()));
 
     }
 }
