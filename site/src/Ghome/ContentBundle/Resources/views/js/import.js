@@ -1,7 +1,11 @@
-function insert(idString) {
+$(function() {
 
-	$.get("ghome/"+idString,
-	function(msg){
-		$("#injectedVue").html(msg);
+2  	$('a[href$="space"]').click(function(e) {
+
+		$.get("ghome/space", function(msg){
+			$("#injectedVue").html(msg);
+		});
+
+		return false;
 	});
-}
+3});

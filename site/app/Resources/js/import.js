@@ -1,7 +1,12 @@
-function insert(idString) {
+$(function() {
 
-	$.get("ghome/"+idString,
-	function(msg){
-		$("#injectedVue").html(msg);
+  	$('a[href$="space"]').click(function(e) {
+
+		e.preventDefault();
+
+		$.get("ghome/space", function(msg){
+
+			$("#injectedVue").html(msg);
+		});
 	});
-}
+});

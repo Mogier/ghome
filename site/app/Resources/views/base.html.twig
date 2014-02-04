@@ -28,7 +28,7 @@
                         <a data-toggle="collapse" data-target="#composants" href="#">Composants</a>
                         <ul class="collapse in" id="composants">
                             <li>
-                                <a href="{{ path('ghome_content_addCapteur') }}">Capteurs</a>
+                                <a href="{{ path('ghome_content_addContent', {'idString': 'capteur'}) }}">Capteurs</a>
                             </li>
                             <li>
                                 <a href="#actionneurs">Actionneurs</a>
@@ -39,7 +39,7 @@
                       <li><a data-toggle="collapse" data-target="#espace" href="#">Espace</a>
                         <ul class="collapse" id="espace">
                             <li>
-                                <a href="#edition" onClick="insert('space');">Edition</a>
+                                <a href="{{ path('ghome_content_addContent', {'idString': 'space'}) }}">Edition</a>
                             </li>
                             <li>
                                 <a href="#visualisation">Visualisation</a>
