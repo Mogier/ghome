@@ -49,7 +49,7 @@ class DefaultController extends Controller
     	switch($idString) {
 
     		case "space":               
-                return $this->redirect($this->generateUrl('ghome_content_addSpace'));
+                return $this->redirect($this->generateUrl('ghome_content_listSpaces'));
     	}
     }
 
@@ -70,7 +70,7 @@ class DefaultController extends Controller
                 $em->persist($espace);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('ghome_content_listSpaces'));
+                return $this->redirect($this->generateUrl('ghome_content_homepage'));
             }
         }
 
