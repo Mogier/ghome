@@ -11,6 +11,10 @@ ghome_content_addSpace:
     pattern: /ghome/addSpace
     defaults: { _controller: GhomeContentBundle:Default:addSpace }
 
+ghome_content_listSpaces:
+    pattern: /ghome/listSpaces
+    defaults: { _controller: GhomeContentBundle:Default:listSpaces }
+
 ghome_content_addContent:
     pattern: /ghome/{idString}
     defaults: { _controller: GhomeContentBundle:Default:content }

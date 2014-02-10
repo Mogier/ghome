@@ -55,7 +55,7 @@ class DefaultController extends Controller
     	switch($idString) {
 
     		case "space":               
-                return $this->redirect($this->generateUrl('ghome_content_addSpace'));
+                return $this->redirect($this->generateUrl('ghome_content_listSpaces'));
             case "capteur":
                 return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
     	}
@@ -63,17 +63,37 @@ class DefaultController extends Controller
 
     public function addSpaceAction(Request $request)
     {
-        //die(var_dump("expression"));
         $em = $this->getDoctrine()->getManager();
         $espace = new Espace();
 
         $form = $this->createForm(new EspaceType(), $espace);
 
         if($request->isMethod('POST')){
-            //TODO Persist in base   
+
+            $form->handleRequest($request);
+
+            if ($form->isValid()) 
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($espace);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('ghome_content_homepage'));
+            }
         }
 
-        return $this->render('GhomeContentBundle::addSpace.html.twig', array('form' => $form->createView(),));
+        return $this->render('GhomeContentBundle::addSpace.html.twig', array('form' => $form->createView()));
+    }
+
+    public function listSpacesAction(Request $request) 
+    {
+        $spaces = $this->get('ghome_content')->GetAllSpaces();
+
+        $espace = new Espace();
+
+        $form = $this->createForm(new EspaceType(), $espace, array('action' => $this->generateUrl('ghome_content_addSpace')));
+
+        return $this->render('GhomeContentBundle::listSpaces.html.twig', array('spaces' => $spaces, 'form' => $form->createView()));
 
     }
 }
