@@ -9,4 +9,14 @@ $(function() {
 			$("#injectedVue").html(msg);
 		});
 	});
+
+	$('a[href$="capteur"]').click(function(e) {
+
+		e.preventDefault();
+
+		$.get("ghome/capteur", function(msg){
+
+			$("#injectedVue").html(msg);
+		});
+	});
 });
