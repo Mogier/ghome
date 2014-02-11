@@ -1,5 +1,6 @@
 import datetime
 import utils
+import analyseur as a
 
 class Trame:
 
@@ -12,26 +13,45 @@ class Trame:
 		self.checksum = checksum
 		self.timeStamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
 
+	def analyse(self):
+		a.analyse(self.org,self)
+
 	def isLearn(self):
 		intdata = int(self.data[6:8],16)
-		masque = int(0b01000100)
-		if (intdata & masque != 64):
-			return False
-		else:
-			return True
+		if self.org == "07":
+			masque = int(0b10001000)
+			if intdata & masque != 128:
+				return False
+			else:
+				return True
+		elif self.org == "06":
+			masque = int(0b00001000)
+			if intdata & masque != 0:
+				return False
+			else:
+				return True
+
 
 	def analyseLearn(self):
 		metadata = []
 		databin = []
 		sep = ""
 
-		databin.extend(utils.hexstrtobin(self.data[0:2])[2:].zfill(8))
-		databin.extend(utils.hexstrtobin(self.data[2:4])[2:].zfill(8))
-		databin.extend(utils.hexstrtobin(self.data[4:6])[2:].zfill(8))
+		if self.org == "07":
+			metadata.append(self.org)
 
-		metadata.append(int(sep.join(databin[0:6]),2))
-		metadata.append(int(sep.join(databin[6:13]),2))
-		metadata.append(int(sep.join(databin[13:]),2))
+			databin.extend(utils.hexstrtobin(self.data[0:2])[2:].zfill(8))
+			databin.extend(utils.hexstrtobin(self.data[2:4])[2:].zfill(8))
+			databin.extend(utils.hexstrtobin(self.data[4:6])[2:].zfill(8))
+
+			metadata.append(str(hex(int(sep.join(databin[0:6]),2)))[2:].upper())
+			metadata.append(str(hex(int(sep.join(databin[6:13]),2)))[2:].upper())  
+			metadata.append(str(hex(int(sep.join(databin[13:]),2)))[2:].upper())
+		
+		elif self.org == "06":
+			metadata.append("06")
+			metadata.append("00")
+			metadata.append("01")
 
 		return metadata
 
