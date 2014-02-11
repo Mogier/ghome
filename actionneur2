@@ -26,5 +26,5 @@ def OnOff(numPrise, val_bool):
         Actio=Actionneur(numPrise)
         if val_bool == 0:
                 Actio.ordreArret()
-        else
+        else:
                 Actio.ordreMarche()
