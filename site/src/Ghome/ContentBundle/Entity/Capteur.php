@@ -17,7 +17,7 @@ class Capteur
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -79,7 +79,7 @@ class Capteur
      * @param \Ghome\ContentBundle\Entity\Espace $idEspace
      * @return Capteur
      */
-    public function setIdEspace(\Ghome\ContentBundle\Entity\Espace $idEspace = null)
+    public function setIdEspace(\Ghome\ContentBundle\Entity\Espace $idEspace)
     {
         $this->idEspace = $idEspace;
 

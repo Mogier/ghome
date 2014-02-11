@@ -1,8 +1,4 @@
-{% extends '::base.html.twig' %}
-
-{% block body %}
-
-	<table id="table_spaces">
+	<table id="table_spaces" class="table table-bordered table-hover table-striped">
 		<thead>
 			<tr id="search">
 				<th>Nom</th>
@@ -19,10 +15,30 @@
 		</tbody>
 	</table>
 
-{% endblock %}
+	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	Ajout Espace
+	</button>
 
-{% block javascripts %}
-	   {{ parent() }}
-		<script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js">
-		</script>	
-{% endblock %}
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Ajouter un espace</h4>
+				</div>
+					<div class="modal-body">
+												{{ form_start(form, { 'attr': {'class': 'form-horizontal'}}) }}
+						{{ form_row(form.nom, { 'attr': {'class': 'form-control', 'placeholder': 'Nom'} }) }}
+						{{ form_row(form.description, { 'attr': {'class': 'form-control', 'placeholder': 'Description'} }) }}
+						<button type="submit" class="btn btn-default">Ajouter</button>
+						{{ form_end(form) }}
+
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+    		$('#table_spaces').dataTable();
+		</script>

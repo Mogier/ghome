@@ -15,9 +15,11 @@ class Actionneur
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_Etat", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idEtat;
+    private $id;
 
     /**
      * @var string
@@ -39,14 +41,12 @@ class Actionneur
     /**
      * @var \Etat
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="Etat")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_Etat", referencedColumnName="id")
      * })
      */
-    private $id;
+    private $idEtat;
 
 
 

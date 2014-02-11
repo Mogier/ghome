@@ -21,21 +21,27 @@ class DefaultController extends Controller
 
     public function addCapteurAction(Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
-        $space = $em->getRepository('GhomeContentBundle:Espace')->findAll();
+        $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
+        $space = $spaceRepository->findAll();
         $capteurType = new CapteurType($space);
         $capteur = new Capteur();
-        $form = $this->createForm($capteurType, $capteur);
+        $form = $this->createForm($capteurType, $capteur, array('action' => $this->generateUrl('ghome_content_addCapteur'), 'em' => $this->getDoctrine()->getManager()));
 
         if($request->isMethod('POST'))
         {
+            //die(var_dump($form->get('idEspace')->getData()));
+            //$form->setData(array('idEspace' => $spaceRepository->find($form->get('idEspace')->getData())));
             $form->handleRequest($request);
 
-            if ($form->isValid()) 
+            if ($form->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($task);
+                $em->persist($capteur);
                 $em->flush();
+
+                $this->get('session')->getFlashBag()->add('notice','Le capteur a bien été ajouté');
 
                 return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
             }
@@ -49,7 +55,9 @@ class DefaultController extends Controller
     	switch($idString) {
 
     		case "space":               
-                return $this->redirect($this->generateUrl('ghome_content_addSpace'));
+                return $this->redirect($this->generateUrl('ghome_content_listSpaces'));
+            case "capteur":
+                return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
     	}
     }
 
@@ -70,7 +78,7 @@ class DefaultController extends Controller
                 $em->persist($espace);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('ghome_content_addSpace'));
+                return $this->redirect($this->generateUrl('ghome_content_homepage'));
             }
         }
 
@@ -81,7 +89,11 @@ class DefaultController extends Controller
     {
         $spaces = $this->get('ghome_content')->GetAllSpaces();
 
-        return $this->render('GhomeContentBundle::listSpaces.html.twig', array('spaces' => $spaces));
+        $espace = new Espace();
+
+        $form = $this->createForm(new EspaceType(), $espace, array('action' => $this->generateUrl('ghome_content_addSpace')));
+
+        return $this->render('GhomeContentBundle::listSpaces.html.twig', array('spaces' => $spaces, 'form' => $form->createView()));
 
     }
 }
