@@ -27,10 +27,12 @@ class Actionneur(object):
                 rep = maSocket.recv(32)
                 print (rep)
 
-
-
 Actio = Actionneur('134.214.106.23',5000,7)
 
 Actio.ordreMarche()
 time.sleep(2)
 Actio.ordreArret()
+
+while True:
+        response = maSocket.recv(1024)
+        print response

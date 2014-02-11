@@ -3,6 +3,7 @@
 			<tr id="search">
 				<th>Nom</th>
 				<th>Description</th>
+				<th> </th>
 			</tr> 
 		</thead>					  
 		<tbody id="spaces">	
@@ -10,6 +11,7 @@
 				<tr id="{{ sp.id }}">
 					  <td>{{ sp.nom }}</td>
 					  <td>{{ sp.description }}</td>
+					  <td> <button type="button" class="btn btn-danger btn-sm">Suppr</button></td>
 				</tr>	
 		{% endfor %}
 		</tbody>
