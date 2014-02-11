@@ -79,7 +79,7 @@ class Capteur
      * @param \Ghome\ContentBundle\Entity\Espace $idEspace
      * @return Capteur
      */
-    public function setIdEspace(\Ghome\ContentBundle\Entity\Espace $idEspace = null)
+    public function setIdEspace(\Ghome\ContentBundle\Entity\Espace $idEspace)
     {
         $this->idEspace = $idEspace;
 

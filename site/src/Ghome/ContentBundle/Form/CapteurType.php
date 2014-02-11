@@ -5,6 +5,8 @@ namespace Ghome\ContentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Ghome\ContentBundle\Form\DataTransformer\EspaceToNumberTransformer;
 
 class CapteurType extends AbstractType {
 
@@ -17,6 +19,8 @@ class CapteurType extends AbstractType {
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $entityManager = $options['em'];
+        $transformer = new EspaceToNumberTransformer($entityManager);
 
         $formSpace = array();
         foreach($this->space as $space)
@@ -25,8 +29,26 @@ class CapteurType extends AbstractType {
         }
         $builder
             ->add('tramelearn', "text")
-            ->add('espace', 'choice', array('choices' => $formSpace, 'required'  => true, 'expanded' => true,'mapped' => false, 'multiple' => true ))
+            ->add($builder->create('idEspace', 'choice', array('choices' => $formSpace, 'required'  => true, 'expanded' => true,'mapped' => true, 'multiple' => false ))
+                    ->addModelTransformer($transformer)
+            )
             ->add('save', 'submit');
+
+
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver
+            ->setDefaults(array(
+            'data_class' => 'Ghome\ContentBundle\Entity\Capteur',
+        ))
+            ->setRequired(array(
+            'em',
+        ))
+        ->setAllowedTypes(array(
+               'em' => 'Doctrine\Common\Persistence\ObjectManager',
+        ));
     }
 
     public function getName()
