@@ -1,0 +1,30 @@
+import socket
+maSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+#monActionneur = Actionneur(adresse IP : string, num de port : int, num de prise : int)
+class Actionneur(object):
+        numPrise = 0
+        def __init__(self, numPrise):
+                maSocket.connect(('134.214.106.23',5000))
+                self.numPrise = numPrise
+        def ajouterPlage(self):
+                chkSum = hex(127+self.numPrise)
+                chkSum = chkSum[2::]
+                maSocket.send('A55AAB18FF9F1E0'+str(self.numPrise)+'0000000000'+chkSum)
+        def ordreMarche(self):
+                self.ajouterPlage()
+                chkSum = hex(172+self.numPrise)
+                chkSum = chkSum[2::]
+                maSocket.send('A55A6B0550000000FF9F1E0'+str(self.numPrise)+'30'+chkSum)
+        def ordreArret(self):
+                self.ajouterPlage()
+                chkSum = hex(204+self.numPrise)
+                chkSum = chkSum[2::]
+                maSocket.send('A55A6B0570000000FF9F1E0'+str(self.numPrise)+'30'+chkSum)
+
+def OnOff(numPrise, val_bool):
+        Actio=Actionneur(numPrise)
+        if val_bool == 0:
+                Actio.ordreArret()
+        else:
+                Actio.ordreMarche()
