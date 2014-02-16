@@ -11,10 +11,12 @@ use Ghome\ContentBundle\Form\DataTransformer\EspaceToNumberTransformer;
 class CapteurType extends AbstractType {
 
     private $space;
+    private $physicalIds;
 
-    function __construct(array $space) {
+    function __construct(array $space, array $physicalIds) {
 
         $this->space = $space;
+        $this->physicalIds = $physicalIds;
     }
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
@@ -27,14 +29,19 @@ class CapteurType extends AbstractType {
         {
                 $formSpace[$space->getId()] = $space->getNom();
         }
+
+        $formId = array();
+        foreach($this->physicalIds as $id)
+        {
+                $formId[$id['idPhysiqueCapteur']] = $id['idPhysiqueCapteur'];
+        }
+
         $builder
-            ->add('tramelearn', "text")
             ->add($builder->create('idEspace', 'choice', array('choices' => $formSpace, 'required'  => true, 'expanded' => true,'mapped' => true, 'multiple' => false ))
                     ->addModelTransformer($transformer)
             )
+            ->add('physicalId', 'choice', array('choices' => $formId, 'required'  => true, 'expanded' => true,'mapped' => false, 'multiple' => false ))
             ->add('save', 'submit');
-
-
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

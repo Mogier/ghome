@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TrameLearn
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ghome\ContentBundle\Entity\Repository\TrameLearnRepository")
  */
 class TrameLearn
 {

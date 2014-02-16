@@ -21,22 +21,23 @@ class DefaultController extends Controller
 
     public function addCapteurAction(Request $request)
     {
-
         $em = $this->getDoctrine()->getManager();
         $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
         $space = $spaceRepository->findAll();
-        $capteurType = new CapteurType($space);
+        $idPhysique = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn')->findAllIdPhysique();
+        $capteurType = new CapteurType($space, $idPhysique);
         $capteur = new Capteur();
         $form = $this->createForm($capteurType, $capteur, array('action' => $this->generateUrl('ghome_content_addCapteur'), 'em' => $this->getDoctrine()->getManager()));
 
         if($request->isMethod('POST'))
         {
-            //die(var_dump($form->get('idEspace')->getData()));
             //$form->setData(array('idEspace' => $spaceRepository->find($form->get('idEspace')->getData())));
             $form->handleRequest($request);
+             die(var_dump($form->get('physicalId')->getData()));
 
             if ($form->isValid())
             {
+                $
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($capteur);
                 $em->flush();
