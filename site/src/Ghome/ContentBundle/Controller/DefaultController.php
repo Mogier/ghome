@@ -16,6 +16,7 @@ class DefaultController extends Controller
 {
     public function homepageAction()
     {
+        $last_line = system('../../actionneur.py', $retval);
         return $this->render('GhomeContentBundle::accueil.html.twig');
     }
 
