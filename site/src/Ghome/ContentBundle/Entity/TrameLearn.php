@@ -30,7 +30,7 @@ class TrameLearn
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPhysiqueCapteur", type="integer", nullable=false)
+     * @ORM\Column(name="idPhysiqueCapteur", type="string", length=20, nullable=false)
      */
     private $idPhysiqueCapteur;
 

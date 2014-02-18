@@ -16,6 +16,16 @@ class TrameLearnRepository extends EntityRepository
             ->getResult();
     }
 
+    public function findIdPhysiqueByTrame($trame) {
+
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT tl.idPhysiqueCapteur FROM GhomeContentBundle:TrameLearn tl WHERE tl.trame = :trame'
+            )
+            ->setParameter('trame', $trame)
+            ->getResult();
+    }
+
     public function findOneTrameByIdPhysique($idPhysique)
     {
     	return $this->getEntityManager()
@@ -23,6 +33,16 @@ class TrameLearnRepository extends EntityRepository
                 'SELECT tl.trame FROM GhomeContentBundle:TrameLearn tl WHERE tl.idPhysiqueCapteur = :id'
             )
             ->setParameter('id', $idPhysique)
-            ->getSingleResult();
+            ->getResult();
+    }
+
+    public function findTrameLearnByIdPhysique($idPhysique) {
+
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT tl FROM GhomeContentBundle:TrameLearn tl WHERE tl.idPhysiqueCapteur = :id'
+            )
+            ->setParameter('id', $idPhysique)
+            ->getResult();
     }
 }

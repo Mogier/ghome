@@ -1,1 +1,46 @@
-{{ form(form) }}
+<table id="table_spaces" class="table table-bordered table-hover table-striped">
+	<thead>
+		<tr id="search">
+			<th>Espace</th>
+			<th>Trame</th>
+			<th>Id Physique</th>
+			<th> </th>
+		</tr> 
+	</thead>					  
+	<tbody id="capteurs">	
+	{% for cp in capteurs %}
+			<tr id="{{ cp.id }}">
+				  <td>{{ cp.idEspace.nom }}</td>
+				  <td>{{ cp.tramelearn }}</td>
+				  <td>{{ cp.idPhysique }}</td>
+				  <td> <a type="button" class="btn btn-danger btn-sm" href="/ghome/site/web/app_dev.php/deleteCapteur/{{cp.id}}">Suppr</a></td>
+			</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	Ajout Capteur
+</button>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Ajouter un espace</h4>
+			</div>
+			<div class="modal-body">
+				
+
+				{{ form(form) }}
+
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+	
+	<script type="text/javascript">
+		$('#table_spaces').dataTable();
+	</script>

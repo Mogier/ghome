@@ -10,6 +10,10 @@ ghome_content_addActionneur:
     pattern: /addActionneur
     defaults: { _controller: GhomeContentBundle:Default:addActionneur }
 
+ghome_content_listCapteurs:
+    pattern: /listCapteurs
+    defaults: { _controller: GhomeContentBundle:Default:listCapteurs }
+
 ghome_content_addSpace:
     pattern: /addSpace
     defaults: { _controller: GhomeContentBundle:Default:addSpace }
