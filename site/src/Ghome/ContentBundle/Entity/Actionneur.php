@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Actionneur
  *
- * @ORM\Table(name="Actionneur", indexes={@ORM\Index(name="I_FK_ACTIONNEUR_ETAT", columns={"id_Etat"}), @ORM\Index(name="I_FK_COMPOSANT_ESPACE_2", columns={"id_Espace"})})
+ * @ORM\Table(name="Actionneur", indexes={@ORM\Index(name="I_FK_COMPOSANT_ESPACE_2", columns={"id_Espace"})})
  * @ORM\Entity
  */
 class Actionneur
@@ -41,36 +41,33 @@ class Actionneur
     /**
      * @var \Etat
      *
-     * @ORM\OneToOne(targetEntity="Etat")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_Etat", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="etat", type="boolean")
      */
-    private $idEtat;
+    private $etat;
 
 
 
     /**
-     * Set idEtat
+     * Set etat
      *
-     * @param integer $idEtat
+     * @param integer $etat
      * @return Actionneur
      */
-    public function setIdEtat($idEtat)
+    public function setEtat($etat)
     {
-        $this->idEtat = $idEtat;
+        $this->etat = $etat;
 
         return $this;
     }
 
     /**
-     * Get idEtat
+     * Get etat
      *
      * @return integer 
      */
-    public function getIdEtat()
+    public function getEtat()
     {
-        return $this->idEtat;
+        return $this->etat;
     }
 
     /**
