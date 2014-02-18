@@ -38,7 +38,36 @@ class Capteur
      */
     private $idEspace;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="idPhysique", type="string", length=20, nullable=true)
+     */
+    private $idPhysique;
 
+
+
+    /**
+     * Set idPhysique
+     *
+     * @param string $idPhysique
+     * @return Capteur
+     */
+    public function setIdPhysique($idPhysique)
+    {
+        $this->idPhysique = $idPhysique;
+
+    }
+
+    /**
+     * Get idPhysique
+     *
+     * @return string 
+     */
+    public function getIdPhysique()
+    {
+        return $this->idPhysique;
+    }
 
     /**
      * Get id

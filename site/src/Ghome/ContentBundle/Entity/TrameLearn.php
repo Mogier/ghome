@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TrameLearn
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Ghome\ContentBundle\Entity\Repository\TrameLearnRepository")
  */
 class TrameLearn
 {
@@ -30,7 +30,7 @@ class TrameLearn
     /**
      * @var integer
      *
-     * @ORM\Column(name="idPhysiqueCapteur", type="integer", nullable=false)
+     * @ORM\Column(name="idPhysiqueCapteur", type="string", length=20, nullable=false)
      */
     private $idPhysiqueCapteur;
 

@@ -20,6 +20,22 @@
             </div>
         {% endblock %}
 
+            <div class="row" id="flashMessage">
+            
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div  class="col-md-10 alert-success">
+                       {{ flashMessage }}
+                    </div>
+                {% endfor %}
+
+                {% for flashMessage in app.session.flashbag.get('warning') %}
+                    <div  class="col-md-10 alert-warning">
+                       {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                
+            </div>
+
             <div class="row">
             {% block menu %}     
                 <div class="col-md-2">

@@ -2,10 +2,20 @@
 
 {% block body %}
 
+	
 	<div class="col-md-10">
 	    <div id="injectedVue">
-	        
-	        
+	    	{% if content == "capteur" %}
+	    		{{ include(
+		            'GhomeContentBundle::listCapteurs.html.twig',
+		            { 'form': form }
+		        ) }}
+	    	{% elseif content == "space" %}
+	    		{{ include(
+		            'GhomeContentBundle::listSpaces.html.twig',
+		            { 'form': form, 'spaces':spaces }
+		        ) }}
+	    	{% endif %}
 	    </div>
 	</div>
 {% endblock %}
