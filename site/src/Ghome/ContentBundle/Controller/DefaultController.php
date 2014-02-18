@@ -55,7 +55,7 @@ class DefaultController extends Controller
             $actionneur = new Actionneur();
             $form = $this->createForm($actionneurType, $actionneur, array('action' => $this->generateUrl('ghome_content_addActionneur'), 'em' => $this->getDoctrine()->getManager()));
 
-            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView()));
+            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView(), 'actionneurs' => $actionneurs));
         }
         else if (strcmp($content, "space") == 0) {
 

@@ -41,6 +41,9 @@
 		</div>
 -->		
 		<script type="text/javascript">
+    		var table = $('#table_actionneurs').dataTable();
+			
+
 			function fnFormatDetails ( id )
 			{
 				var sOut = '<a style="width:30%" type="button" class="btn btn-success" href="/ghome/site/web/app_dev.php/actionneurOn?idActionneur='+id+'">On</a> ';
@@ -49,7 +52,6 @@
 			}
 
 
-    		var table = $('#table_actionneurs').dataTable();
 
     		function fnDetails(element) 
     		{
