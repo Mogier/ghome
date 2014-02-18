@@ -14,42 +14,93 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function homepageAction()
+    public function homepageAction(Request $request)
     {
         $last_line = system('../../actionneur.py', $retval);
-        return $this->render('GhomeContentBundle::accueil.html.twig');
+
+        $content = $request->get('content');
+
+        if(strcmp($content, "capteur") == 0) {
+
+            $em = $this->getDoctrine()->getManager();
+
+            $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
+            $space = $spaceRepository->findAll();
+
+            $TrameLearnRepository = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn');
+            $idPhysique = $TrameLearnRepository->findAllIdPhysique();
+
+            $capteurType = new CapteurType($space, $idPhysique);
+            $capteur = new Capteur();
+            $form = $this->createForm($capteurType, $capteur, array('action' => $this->generateUrl('ghome_content_addCapteur'), 'em' => $this->getDoctrine()->getManager()));
+
+            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView()));
+        }
+        else if (strcmp($content, "space") == 0) {
+
+            $spaces = $this->get('ghome_content')->GetAllSpaces();
+
+            $espace = new Espace();
+
+            $form = $this->createForm(new EspaceType(), $espace, array('action' => $this->generateUrl('ghome_content_addSpace')));
+
+            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'spaces' => $spaces, 'form' => $form->createView()));
+        }
+
+        return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => ""));
     }
 
     public function addCapteurAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
         $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
         $space = $spaceRepository->findAll();
-        $idPhysique = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn')->findAllIdPhysique();
+
+        $TrameLearnRepository = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn');
+        $idPhysique = $TrameLearnRepository->findAllIdPhysique();
+
         $capteurType = new CapteurType($space, $idPhysique);
         $capteur = new Capteur();
         $form = $this->createForm($capteurType, $capteur, array('action' => $this->generateUrl('ghome_content_addCapteur'), 'em' => $this->getDoctrine()->getManager()));
 
         if($request->isMethod('POST'))
         {
-            //$form->setData(array('idEspace' => $spaceRepository->find($form->get('idEspace')->getData())));
             $form->handleRequest($request);
-             die(var_dump($form->get('physicalId')->getData()));
 
             if ($form->isValid())
             {
-                $
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($capteur);
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add('notice','Le capteur a bien été ajouté');
 
-                return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
+                return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'capteur')));
             }
         }
+        
+        return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('form' => $form->createView()));
+    }
 
-        return $this->render('GhomeContentBundle::addCapteur.html.twig', array('form' => $form->createView()));
+    public function listCapteurAction() {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $capteurRepository = $em->getRepository('GhomeContentBundle:Capteur');
+        $capteurs = $spaceRepository->findAll();
+
+        $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
+        $space = $spaceRepository->findAll();
+
+        $TrameLearnRepository = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn');
+        $idPhysique = $TrameLearnRepository->findAllIdPhysique();
+
+        $capteurType = new CapteurType($space, $idPhysique);
+        $capteur = new Capteur();
+        $form = $this->createForm($capteurType, $capteur, array('action' => $this->generateUrl('ghome_content_addCapteur'), 'em' => $this->getDoctrine()->getManager()));
+
+        return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('capteurs' => $capteurs, 'form' => $form->createView()));
     }
 
     public function contentAction($idString)
@@ -68,7 +119,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $espace = new Espace();
 
-        $form = $this->createForm(new EspaceType(), $espace);
+        $form = $this->createForm(new EspaceType(), $espace, array('action' => $this->generateUrl('ghome_content_addSpace')));
 
         if($request->isMethod('POST')){
 
@@ -80,14 +131,16 @@ class DefaultController extends Controller
                 $em->persist($espace);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('ghome_content_homepage'));
+                $this->get('session')->getFlashBag()->add('notice','L\'espace a bien été ajouté');
+
+                return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'space')));
             }
         }
 
         return $this->render('GhomeContentBundle::addSpace.html.twig', array('form' => $form->createView()));
     }
 
-    public function listSpacesAction(Request $request) 
+    public function listSpacesAction(Request $request)
     {
         $spaces = $this->get('ghome_content')->GetAllSpaces();
 
@@ -98,4 +151,27 @@ class DefaultController extends Controller
         return $this->render('GhomeContentBundle::listSpaces.html.twig', array('spaces' => $spaces, 'form' => $form->createView()));
 
     }
+
+    public function deleteSpaceAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+        try {
+
+            $espace = $em->getRepository('GhomeContentBundle:Espace')->findOneById((int)$id);
+            $em->remove($espace);
+            $em->flush();
+        }
+        catch (\Doctrine\DBAL\DBALException $e) {
+
+            $this->get('session')->getFlashBag()->add('warning','Un ou des capteurs sont attachés à cet espace. Supression impossible');
+
+            return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'space')));
+        }
+
+        $this->get('session')->getFlashBag()->add('notice','L\'espace a bien été retiré');
+
+        return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'space')));
+    }
+
+
 }

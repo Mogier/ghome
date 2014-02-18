@@ -58,13 +58,13 @@ class IdPhysiqueToTrameTransformer implements DataTransformerInterface
             ->findOneTrameByIdPhysique($idPhysique)
         ;
 
-        if (null === $Espace) {
+        if (null === $trame) {
             throw new TransformationFailedException(sprintf(
-                'An Espace with idPhysique "%s" does not exist!',
+                'An trame with idPhysique "%s" does not exist!',
                 $idPhysique
             ));
         }
 
-        return $Espace;
+        return $trame["trame"];
     }
 }

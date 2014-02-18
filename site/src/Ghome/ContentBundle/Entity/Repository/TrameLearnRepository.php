@@ -16,12 +16,13 @@ class TrameLearnRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findOneTrameByIdPhysique(idPhysique)
+    public function findOneTrameByIdPhysique($idPhysique)
     {
     	return $this->getEntityManager()
             ->createQuery(
-                'SELECT tl.trame FROM GhomeContentBundle:TrameLearn tl WHERE tl.idPhysiqueCapteur = (:id)'
+                'SELECT tl.trame FROM GhomeContentBundle:TrameLearn tl WHERE tl.idPhysiqueCapteur = :id'
             )
-            ->getResult();
+            ->setParameter('id', $idPhysique)
+            ->getSingleResult();
     }
 }

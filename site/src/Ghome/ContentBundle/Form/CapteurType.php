@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Ghome\ContentBundle\Form\DataTransformer\EspaceToNumberTransformer;
+use Ghome\ContentBundle\Form\DataTransformer\idPhysiqueToTrameTransformer;
 
 class CapteurType extends AbstractType {
 
@@ -22,7 +23,8 @@ class CapteurType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $entityManager = $options['em'];
-        $transformer = new EspaceToNumberTransformer($entityManager);
+        $spaceTransformer = new EspaceToNumberTransformer($entityManager);
+        $trameTransformer = new idPhysiqueToTrameTransformer($entityManager);
 
         $formSpace = array();
         foreach($this->space as $space)
@@ -38,9 +40,11 @@ class CapteurType extends AbstractType {
 
         $builder
             ->add($builder->create('idEspace', 'choice', array('choices' => $formSpace, 'required'  => true, 'expanded' => true,'mapped' => true, 'multiple' => false ))
-                    ->addModelTransformer($transformer)
+                    ->addModelTransformer($spaceTransformer)
             )
-            ->add('physicalId', 'choice', array('choices' => $formId, 'required'  => true, 'expanded' => true,'mapped' => false, 'multiple' => false ))
+            ->add($builder->create('tramelearn', 'choice', array('choices' => $formId, 'required'  => true, 'expanded' => true,'mapped' => true, 'multiple' => false ))
+                    ->addModelTransformer($trameTransformer)
+            )
             ->add('save', 'submit');
     }
 

@@ -11,7 +11,7 @@
 				<tr id="{{ sp.id }}">
 					  <td>{{ sp.nom }}</td>
 					  <td>{{ sp.description }}</td>
-					  <td> <button type="button" class="btn btn-danger btn-sm">Suppr</button></td>
+					  <td> <a type="button" class="btn btn-danger btn-sm" href="/ghome/site/web/app_dev.php/deleteSpace/{{sp.id}}">Suppr</a></td>
 				</tr>	
 		{% endfor %}
 		</tbody>
