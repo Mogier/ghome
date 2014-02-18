@@ -24,6 +24,8 @@ class DefaultController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
+            $capteurs = $em->getRepository('GhomeContentBundle:Capteur')->findAll();
+
             $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
             $space = $spaceRepository->findAll();
 
@@ -34,7 +36,7 @@ class DefaultController extends Controller
             $capteur = new Capteur();
             $form = $this->createForm($capteurType, $capteur, array('action' => $this->generateUrl('ghome_content_addCapteur'), 'em' => $this->getDoctrine()->getManager()));
 
-            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView()));
+            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView(), 'capteurs' => $capteurs));
         }
         else if (strcmp($content, "space") == 0) {
 
@@ -54,6 +56,8 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $capteurs = $em->getRepository('GhomeContentBundle:Capteur')->findAll();
+
         $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
         $space = $spaceRepository->findAll();
 
@@ -71,6 +75,16 @@ class DefaultController extends Controller
             if ($form->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
+
+                $res = $TrameLearnRepository->findIdPhysiqueByTrame($form->get('tramelearn')->getData());
+                $capteur->setIdPhysique($res[0]["idPhysiqueCapteur"]);
+
+                $TrameLearns = $TrameLearnRepository->findTrameLearnByIdPhysique($res[0]["idPhysiqueCapteur"]);
+
+                foreach ($TrameLearns as $key => $trame) {
+                    
+                    $em->remove($trame);
+                }
                 $em->persist($capteur);
                 $em->flush();
 
@@ -80,15 +94,14 @@ class DefaultController extends Controller
             }
         }
         
-        return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('form' => $form->createView()));
+        return $this->render('GhomeContentBundle::homepage.html.twig', array('form' => $form->createView(), 'capteurs' => $capteurs));
     }
 
-    public function listCapteurAction() {
+    public function listCapteursAction() {
 
         $em = $this->getDoctrine()->getManager();
 
-        $capteurRepository = $em->getRepository('GhomeContentBundle:Capteur');
-        $capteurs = $spaceRepository->findAll();
+        $capteurs = $em->getRepository('GhomeContentBundle:Capteur')->findAll();
 
         $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
         $space = $spaceRepository->findAll();
@@ -110,7 +123,7 @@ class DefaultController extends Controller
     		case "space":               
                 return $this->redirect($this->generateUrl('ghome_content_listSpaces'));
             case "capteur":
-                return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
+                return $this->redirect($this->generateUrl('ghome_content_listCapteurs'));
     	}
     }
 
