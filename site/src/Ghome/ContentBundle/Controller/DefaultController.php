@@ -114,7 +114,7 @@ class DefaultController extends Controller
             }
         }
                 
-        return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('form' => $form->createView()));
+        return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('capteurs' => $capteurs, 'form' => $form->createView()));
     }
 
     public function addActionneurAction(Request $request)
@@ -202,7 +202,7 @@ class DefaultController extends Controller
        return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
     }
 
-    public function actionneurOFFAction(Request $request) {
+    public function actionneurOffAction(Request $request) {
            $idActionneur = $request->get('idActionneur');
 
             $em = $this->getDoctrine()->getManager();
