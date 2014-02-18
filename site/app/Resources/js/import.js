@@ -30,6 +30,18 @@ $(function() {
 		});
 	});
 
+	$('a[href$="actionneur"]').click(function(e) {
+
+		e.preventDefault();
+
+		$("#flashMessage").empty();
+
+		$.get("content/actionneur", function(msg){
+
+			$("#injectedVue").html(msg);
+		});
+	});
+
 	// find button to
 
 

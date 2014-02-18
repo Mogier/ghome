@@ -1,6 +1,6 @@
 <?php
 
-// src/Acme/TaskBundle/Form/CapteurType.php
+// src/Acme/TaskBundle/Form/ActionneurType.php
 namespace Ghome\ContentBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -9,15 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Ghome\ContentBundle\Form\DataTransformer\EspaceToNumberTransformer;
 use Ghome\ContentBundle\Form\DataTransformer\IdPhysiqueToTrameTransformer;
 
-class CapteurType extends AbstractType {
+class ActionneurType extends AbstractType {
 
     private $space;
-    private $physicalIds;
 
-    function __construct(array $space, array $physicalIds) {
+    function __construct(array $space) {
 
         $this->space = $space;
-        $this->physicalIds = $physicalIds;
     }
 
 	public function buildForm(FormBuilderInterface $builder, array $options)
@@ -32,18 +30,9 @@ class CapteurType extends AbstractType {
                 $formSpace[$space->getId()] = $space->getNom();
         }
 
-        $formId = array();
-        foreach($this->physicalIds as $id)
-        {
-                $formId[$id['idPhysiqueCapteur']] = $id['idPhysiqueCapteur'];
-        }
-
         $builder
             ->add($builder->create('idEspace', 'choice', array('choices' => $formSpace, 'required'  => true, 'expanded' => true,'mapped' => true, 'multiple' => false ))
                     ->addModelTransformer($spaceTransformer)
-            )
-            ->add($builder->create('tramelearn', 'choice', array('choices' => $formId, 'required'  => true, 'expanded' => true,'mapped' => true, 'multiple' => false ))
-                    ->addModelTransformer($trameTransformer)
             )
             ->add('save', 'submit');
     }
@@ -52,7 +41,7 @@ class CapteurType extends AbstractType {
     {
         $resolver
             ->setDefaults(array(
-            'data_class' => 'Ghome\ContentBundle\Entity\Capteur',
+            'data_class' => 'Ghome\ContentBundle\Entity\Actionneur',
         ))
             ->setRequired(array(
             'em',
@@ -64,6 +53,6 @@ class CapteurType extends AbstractType {
 
     public function getName()
     {
-        return 'capteur';
+        return 'actionneur';
     }
 }

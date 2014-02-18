@@ -5,10 +5,12 @@ namespace Ghome\ContentBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 //Entities
 use Ghome\ContentBundle\Entity\Capteur;
+use Ghome\ContentBundle\Entity\Actionneur;
 use Ghome\ContentBundle\Entity\Espace;
 //Forms
 use Ghome\ContentBundle\Form\EspaceType;
 use Ghome\ContentBundle\Form\CapteurType;
+use Ghome\ContentBundle\Form\ActionneurType;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -16,7 +18,7 @@ class DefaultController extends Controller
 {
     public function homepageAction(Request $request)
     {
-        $last_line = system('../../actionneur.py', $retval);
+       // $last_line = system('python ../../ActionneurPrise.py 6 0', $retval);
 
         $content = $request->get('content');
 
@@ -36,6 +38,25 @@ class DefaultController extends Controller
 
             return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView()));
         }
+        else if (strcmp($content, "actionneur") == 0) {
+            die(var_dump("tututu"));
+            $em = $this->getDoctrine()->getManager();
+
+            $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
+            $actionneurs = $actionneurRepository->findAll();
+
+            $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
+            $space = $spaceRepository->findAll();
+
+            //$TrameLearnRepository = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn');
+            //$idPhysique = $TrameLearnRepository->findAllIdPhysique();
+
+            $actionneurType = new ActionneurType($space);
+            $actionneur = new Actionneur();
+            $form = $this->createForm($actionneurType, $actionneur, array('action' => $this->generateUrl('ghome_content_addActionneur'), 'em' => $this->getDoctrine()->getManager()));
+
+            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView()));
+        }
         else if (strcmp($content, "space") == 0) {
 
             $spaces = $this->get('ghome_content')->GetAllSpaces();
@@ -46,6 +67,7 @@ class DefaultController extends Controller
 
             return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'spaces' => $spaces, 'form' => $form->createView()));
         }
+
 
         return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => ""));
     }
@@ -79,8 +101,41 @@ class DefaultController extends Controller
                 return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'capteur')));
             }
         }
-        
+                
         return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('form' => $form->createView()));
+    }
+
+    public function addActionneurAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
+        $space = $spaceRepository->findAll();
+
+        //$TrameLearnRepository = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn');
+        //$idPhysique = $TrameLearnRepository->findAllIdPhysique();
+
+        $actionneurType = new ActionneurType($space);
+        $actionneur = new Actionneur();
+        $form = $this->createForm($actionneurType, $actionneur, array('action' => $this->generateUrl('ghome_content_addActionneur'), 'em' => $this->getDoctrine()->getManager()));
+
+        if($request->isMethod('POST'))
+        {
+            $form->handleRequest($request);
+
+            if ($form->isValid())
+            {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($actionneur);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add('notice',"L'actionneur a bien été ajouté");
+
+                return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
+            }
+        }
+                
+        return $this->render('GhomeContentBundle::listActionneurs.html.twig', array('form' => $form->createView()));
     }
 
     public function listCapteurAction() {
@@ -103,6 +158,26 @@ class DefaultController extends Controller
         return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('capteurs' => $capteurs, 'form' => $form->createView()));
     }
 
+    public function listActionneursAction() {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
+        $actionneurs = $actionneurRepository->findAll();
+
+        $spaceRepository = $em->getRepository('GhomeContentBundle:Espace');
+        $space = $spaceRepository->findAll();
+
+        //$TrameLearnRepository = $this->getDoctrine()->getRepository('GhomeContentBundle:TrameLearn');
+        //$idPhysique = $TrameLearnRepository->findAllIdPhysique();
+
+        $actionneurType = new ActionneurType($space);
+        $actionneur = new Actionneur();
+        $form = $this->createForm($actionneurType, $actionneur, array('action' => $this->generateUrl('ghome_content_addActionneur'), 'em' => $this->getDoctrine()->getManager()));
+
+        return $this->render('GhomeContentBundle::listActionneurs.html.twig', array('actionneurs' => $actionneurs, 'form' => $form->createView()));
+    }
+
     public function contentAction($idString)
     {      
     	switch($idString) {
@@ -111,6 +186,8 @@ class DefaultController extends Controller
                 return $this->redirect($this->generateUrl('ghome_content_listSpaces'));
             case "capteur":
                 return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
+            case "actionneur":
+                return $this->redirect($this->generateUrl('ghome_content_listActionneurs'));
     	}
     }
 
