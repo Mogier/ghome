@@ -22,11 +22,12 @@ class Actionneur
     private $id;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="trameLearn", type="string", length=32, nullable=true)
+     * @ORM\Column(name="numero", type="integer", nullable=false)
      */
-    private $tramelearn;
+    private $numero;
+
 
     /**
      * @var \Espace
@@ -137,5 +138,28 @@ class Actionneur
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param integer $numero
+     * @return Actionneur
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer 
+     */
+    public function getNumero()
+    {
+        return $this->numero;
     }
 }

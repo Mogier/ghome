@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Actionneur
  *
- * @ORM\Table(name="Actionneur", indexes={@ORM\Index(name="I_FK_ACTIONNEUR_ETAT", columns={"id_Etat"}), @ORM\Index(name="I_FK_COMPOSANT_ESPACE_2", columns={"id_Espace"})})
+ * @ORM\Table(name="Actionneur", indexes={@ORM\Index(name="I_FK_COMPOSANT_ESPACE_2", columns={"id_Espace"})})
  * @ORM\Entity
  */
 class Actionneur
@@ -15,16 +15,19 @@ class Actionneur
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_Etat", type="integer", nullable=false)
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idEtat;
+    private $id;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="trameLearn", type="string", length=32, nullable=true)
+     * @ORM\Column(name="numero", type="integer", nullable=false)
      */
-    private $tramelearn;
+    private $numero;
+
 
     /**
      * @var \Espace
@@ -39,14 +42,101 @@ class Actionneur
     /**
      * @var \Etat
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Etat")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="etat", type="boolean")
      */
-    private $id;
+    private $etat;
 
 
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return Actionneur
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set tramelearn
+     *
+     * @param string $tramelearn
+     * @return Actionneur
+     */
+    public function setTramelearn($tramelearn)
+    {
+        $this->tramelearn = $tramelearn;
+
+        return $this;
+    }
+
+    /**
+     * Get tramelearn
+     *
+     * @return string 
+     */
+    public function getTramelearn()
+    {
+        return $this->tramelearn;
+    }
+
+    /**
+     * Set idEspace
+     *
+     * @param \Ghome\ContentBundle\Entity\Espace $idEspace
+     * @return Actionneur
+     */
+    public function setIdEspace(\Ghome\ContentBundle\Entity\Espace $idEspace = null)
+    {
+        $this->idEspace = $idEspace;
+
+        return $this;
+    }
+
+    /**
+     * Get idEspace
+     *
+     * @return \Ghome\ContentBundle\Entity\Espace 
+     */
+    public function getIdEspace()
+    {
+        return $this->idEspace;
+    }
+
+    /**
+     * Set id
+     *
+     * @param \Ghome\ContentBundle\Entity\Etat $id
+     * @return Actionneur
+     */
+    public function setId(\Ghome\ContentBundle\Entity\Etat $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return \Ghome\ContentBundle\Entity\Etat 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }

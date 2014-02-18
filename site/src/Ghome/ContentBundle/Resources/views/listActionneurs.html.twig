@@ -13,7 +13,7 @@
 		{% for act in actionneurs %}
 				<tr id="{{ act.id }}">
 					  <td class="text-center"> <span class="badge"> <span onclick="fnDetails(this);" class="glyphicon glyphicon-plus"></span> </span> </td>
-					  <td> </td>
+					  <td> {{ act.numero }}</td>
 					  <td>{{ act.idEspace.id }}</td>
 					  <td> <a type="button" class="btn btn-danger btn-sm" href="/ghome/site/web/app_dev.php/deleteSpace/{{act.id}}">Suppr</a></td>
 				</tr>	
@@ -41,10 +41,10 @@
 		</div>
 -->		
 		<script type="text/javascript">
-			function fnFormatDetails ( oTable, nTr )
+			function fnFormatDetails ( id )
 			{
-				var sOut = '<button style="width:30%" type="button" class="btn btn-success">On</button> <button style="width:30%" type="button" class="btn btn-danger">Off</button>';
-				
+				var sOut = '<a style="width:30%" type="button" class="btn btn-success" href="/ghome/site/web/app_dev.php/actionneurOn?idActionneur='+id+'">On</a> ';
+				sOut+= '<a style="width:30%" type="button" class="btn btn-danger"  href="/ghome/site/web/app_dev.php/actionneurOff?idActionneur='+id+'">Off</a>';
 				return sOut;
 			}
 
@@ -64,7 +64,7 @@
 				{
 					/* Open this row */
 					element.className="glyphicon glyphicon-minus";
-					table.fnOpen( nTr, fnFormatDetails(table, nTr), 'details text-center' );
+					table.fnOpen( nTr, fnFormatDetails(nTr.id), 'details text-center' );
 				}
 			}	
 

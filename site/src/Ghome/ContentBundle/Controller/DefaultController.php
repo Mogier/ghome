@@ -18,7 +18,6 @@ class DefaultController extends Controller
 {
     public function homepageAction(Request $request)
     {
-       // $last_line = system('python ../../ActionneurPrise.py 6 0', $retval);
 
         $content = $request->get('content');
 
@@ -41,7 +40,6 @@ class DefaultController extends Controller
             return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'form' => $form->createView(), 'capteurs' => $capteurs));
         }
         else if (strcmp($content, "actionneur") == 0) {
-            die(var_dump("tututu"));
             $em = $this->getDoctrine()->getManager();
 
             $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
@@ -190,6 +188,32 @@ class DefaultController extends Controller
 
         return $this->render('GhomeContentBundle::listActionneurs.html.twig', array('actionneurs' => $actionneurs, 'form' => $form->createView()));
     }
+
+    public function actionneurOnAction(Request $request) {
+       $idActionneur = $request->get('idActionneur');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
+        $actionneur = $actionneurRepository->findOneById($idActionneur);
+
+       $last_line = system('python ../../ActionneurPrise.py '. strval($actionneur->getNumero()). ' 1', $retval);
+
+       return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
+    }
+
+    public function actionneurOFFAction(Request $request) {
+           $idActionneur = $request->get('idActionneur');
+
+            $em = $this->getDoctrine()->getManager();
+
+            $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
+            $actionneur = $actionneurRepository->findOneById($idActionneur);
+
+           $last_line = system('python ../../ActionneurPrise.py '. strval($actionneur->getNumero()). ' 0', $retval);
+
+           return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
+        }
 
     public function contentAction($idString)
     {      
