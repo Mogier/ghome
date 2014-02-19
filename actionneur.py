@@ -29,8 +29,8 @@ class Actionneur(object):
 
 
 
-Actio = Actionneur('134.214.106.23',5000,7)
+Actio = Actionneur('134.214.106.23',5000,6)
 
-Actio.ordreMarche()
-time.sleep(2)
+#Actio.ordreMarche()
+#time.sleep(2)
 Actio.ordreArret()

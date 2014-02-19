@@ -6,6 +6,14 @@ ghome_content_addCapteur:
     pattern: /addCapteur
     defaults: { _controller: GhomeContentBundle:Default:addCapteur }
 
+ghome_content_addActionneur:
+    pattern: /addActionneur
+    defaults: { _controller: GhomeContentBundle:Default:addActionneur }
+
+ghome_content_listCapteurs:
+    pattern: /listCapteurs
+    defaults: { _controller: GhomeContentBundle:Default:listCapteurs }
+
 ghome_content_addSpace:
     pattern: /addSpace
     defaults: { _controller: GhomeContentBundle:Default:addSpace }
@@ -14,6 +22,10 @@ ghome_content_listSpaces:
     pattern: /listSpaces
     defaults: { _controller: GhomeContentBundle:Default:listSpaces }
 
+ghome_content_listActionneurs:
+    pattern: /listActionneurs
+    defaults: { _controller: GhomeContentBundle:Default:listActionneurs }
+
 ghome_content_addContent:
     pattern: /content/{idString}
     defaults: { _controller: GhomeContentBundle:Default:content }
@@ -21,3 +33,15 @@ ghome_content_addContent:
 ghome_content_deleteSpace:
     pattern: /deleteSpace/{id}
     defaults: { _controller: GhomeContentBundle:Default:deleteSpace }
+
+ghome_content_ActionneurOn:
+    pattern: /actionneurOn
+    defaults: { _controller: GhomeContentBundle:Default:actionneurOn }
+
+ghome_content_ActionneurOff:
+    pattern: /actionneurOff
+    defaults: { _controller: GhomeContentBundle:Default:actionneurOff }
+
+ghome_content_deleteActionneur:
+    pattern: /deleteActionneur
+    defaults: { _controller: GhomeContentBundle:Default:deleteActionneur }

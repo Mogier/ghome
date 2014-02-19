@@ -65,6 +65,6 @@ class IdPhysiqueToTrameTransformer implements DataTransformerInterface
             ));
         }
 
-        return $trame["trame"];
+        return $trame[0]["trame"];
     }
 }

@@ -15,6 +15,11 @@
 		            'GhomeContentBundle::listSpaces.html.twig',
 		            { 'form': form, 'spaces':spaces }
 		        ) }}
+	        {% elseif content == "actionneur" %}
+    		{{ include(
+	            'GhomeContentBundle::listActionneurs.html.twig',
+	            { 'form': form, 'actionneurs':actionneurs }
+	        ) }}
 	    	{% endif %}
 	    </div>
 	</div>
