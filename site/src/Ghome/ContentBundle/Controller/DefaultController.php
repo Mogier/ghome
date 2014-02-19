@@ -129,6 +129,7 @@ class DefaultController extends Controller
 
         $actionneurType = new ActionneurType($space);
         $actionneur = new Actionneur();
+        $actionneur->setEtat(1);
         $form = $this->createForm($actionneurType, $actionneur, array('action' => $this->generateUrl('ghome_content_addActionneur'), 'em' => $this->getDoctrine()->getManager()));
 
         if($request->isMethod('POST'))
@@ -214,6 +215,20 @@ class DefaultController extends Controller
 
            return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
         }
+
+    public function deleteActionneurAction(Request $request) {
+        $idActionneur = $request->get('idActionneur');
+        $em = $this->getDoctrine()->getManager();
+        $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
+        $actionneur = $actionneurRepository->findOneById($idActionneur);
+
+        $em->remove($actionneur);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
+
+
+    }
 
     public function contentAction($idString)
     {      

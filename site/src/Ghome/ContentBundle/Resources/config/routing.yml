@@ -41,3 +41,7 @@ ghome_content_ActionneurOn:
 ghome_content_ActionneurOff:
     pattern: /actionneurOff
     defaults: { _controller: GhomeContentBundle:Default:actionneurOff }
+
+ghome_content_deleteActionneur:
+    pattern: /deleteActionneur
+    defaults: { _controller: GhomeContentBundle:Default:deleteActionneur }

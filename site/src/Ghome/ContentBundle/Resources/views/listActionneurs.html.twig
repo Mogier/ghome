@@ -15,15 +15,17 @@
 					  <td class="text-center"> <span class="badge"> <span onclick="fnDetails(this);" class="glyphicon glyphicon-plus"></span> </span> </td>
 					  <td> {{ act.numero }}</td>
 					  <td>{{ act.idEspace.id }}</td>
-					  <td> <a type="button" class="btn btn-danger btn-sm" href="/ghome/site/web/app_dev.php/deleteSpace/{{act.id}}">Suppr</a></td>
+					  <td> <a type="button" class="btn btn-danger btn-sm" href="/ghome/site/web/app_dev.php/deleteActionneur?idActionneur={{act.id}}">Suppr</a></td>
 				</tr>	
 		{% endfor %}
 		</tbody>
 	</table>
-<!--
-	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-	Ajout Espace
-	</button>
+
+	<p class="text-right">
+		<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+		Ajout Actionneur
+		</button>
+	</p>
 
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -33,14 +35,18 @@
 					<h4 class="modal-title" id="myModalLabel">Ajouter un espace</h4>
 				</div>
 					<div class="modal-body">
+						{{ form(form) }}
 
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
-		</div>
--->		
+		</div>	
+		
+        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 		<script type="text/javascript">
+		console.log("tutu");
     		var table = $('#table_actionneurs').dataTable();
 			
 
