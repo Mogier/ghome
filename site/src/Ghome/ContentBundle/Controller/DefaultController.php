@@ -230,7 +230,7 @@ class DefaultController extends Controller
         $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
         $actionneur = $actionneurRepository->findOneById($idActionneur);
 
-        $last_line = system('python ../../ActionneurPrise.py '. strval($actionneur->getNumero()). strval($newState), $retval);
+        $last_line = system('python ../../ActionneurPrise.py '.strval($actionneur->getNumero()).' '.strval($newState), $retval);
 
         $actionneur->setEtat(strval($newState));
         $em->flush();
