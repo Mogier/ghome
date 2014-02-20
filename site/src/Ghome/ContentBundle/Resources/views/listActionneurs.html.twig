@@ -37,9 +37,23 @@
 					<h4 class="modal-title" id="myModalLabel">Ajouter un actionneur</h4>
 				</div>
 					<div class="modal-body">
-						{{ form(form) }}
+						
+						{{ form_start(form) }}
+						    {{ form_errors(form) }}
 
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						    {{ form_label(form.numero, 'Numéro de l\'actionneur :') }}
+					        {{ form_errors(form.numero) }}
+					        {{ form_widget(form.numero) }}
+					        <br>
+						    {{ form_label(form.idEspace, 'Nom de l\'espace:') }}
+					        {{ form_errors(form.idEspace) }}
+					        {{ form_widget(form.idEspace) }}
+					        <br>
+					        <br>
+					        <div>
+						        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}}) }}
+						    </div>
+						{{ form_end(form) }}
 					</div>
 				</div>
 			</div>
@@ -48,7 +62,13 @@
         <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 		<script type="text/javascript">
-			var table = $('#table_actionneurs').dataTable();
+
+			var table;
+			$(function() {
+				 table = $('#table_actionneurs').dataTable({
+					"sDom": "<'row'<'col-md-4'l><'col-md-4'f>r>t<'row'<'col-md-4'i><'col-md-4'p>>"
+				});
+			});
 			
 			function fnFormatDetails ( id, etat )
 			{

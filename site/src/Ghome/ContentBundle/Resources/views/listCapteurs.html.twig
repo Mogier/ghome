@@ -33,14 +33,27 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">Ajouter un espace</h4>
+				<h4 class="modal-title" id="myModalLabel">Ajouter un capteur </h4>
 			</div>
 			<div class="modal-body">
 				
 
-				{{ form(form) }}
+				{{ form_start(form) }}
+				    {{ form_errors(form) }}
 
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				    {{ form_label(form.idEspace, 'Nom de l\'espace :') }}
+			        {{ form_errors(form.idEspace) }}
+			        {{ form_widget(form.idEspace) }}
+			        <br>
+				    {{ form_label(form.tramelearn, 'Numéro du capteur') }}
+			        {{ form_errors(form.tramelearn) }}
+			        {{ form_widget(form.tramelearn) }}
+			        <br>
+			        <div>
+				        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}}) }}
+				    </div>
+
+				{{ form_end(form) }}
 			</div>
 		</div>
 	</div>
