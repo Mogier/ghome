@@ -4,17 +4,19 @@
 		<thead>
 			<tr id="search">
 				<th style="width:10%">Details</th>
-				<th>Numero</th>
 				<th>Espace</th>
+				<th>Numero</th>
+				<th>Etat</th>
 				<th style="width:10%"> </th>
 			</tr> 
 		</thead>					  
 		<tbody id="actionneurs">	
 		{% for act in actionneurs %}
-				<tr id="{{ act.id }}">
+				<tr id="{{ act.id }}" etat="{{ act.etat }}">
 					  <td class="text-center"> <span class="badge"> <span onclick="fnDetails(this);" class="glyphicon glyphicon-plus"></span> </span> </td>
-					  <td> {{ act.numero }}</td>
 					  <td>{{ act.idEspace.id }}</td>
+					  <td> {{ act.numero }}</td>
+					  <td> {% if act.etat == 1%} ON {% else %} OFF {% endif %}</td>
 					  <td> <a type="button" class="btn btn-danger btn-sm" href="/ghome/site/web/app_dev.php/deleteActionneur?idActionneur={{act.id}}">Suppr</a></td>
 				</tr>	
 		{% endfor %}
@@ -50,10 +52,15 @@
     		var table = $('#table_actionneurs').dataTable();
 			
 
-			function fnFormatDetails ( id )
+			function fnFormatDetails ( id, etat )
 			{
-				var sOut = '<a style="width:30%" type="button" class="btn btn-success" href="/ghome/site/web/app_dev.php/actionneurOn?idActionneur='+id+'">On</a> ';
-				sOut+= '<a style="width:30%" type="button" class="btn btn-danger"  href="/ghome/site/web/app_dev.php/actionneurOff?idActionneur='+id+'">Off</a>';
+				var sOut = '';
+
+				if(etat==0){
+					sOut+='<a style="width:30%" type="button" class="btn btn-success" href="/ghome/site/web/app_dev.php/actionneurState?idActionneur='+id+'&currentState='+etat+'">On</a> ';
+				} else {
+					sOut+= '<a style="width:30%" type="button" class="btn btn-danger"  href="/ghome/site/web/app_dev.php/actionneurState?idActionneur='+id+'&currentState='+etat+'">Off</a>';
+				}
 				return sOut;
 			}
 
@@ -72,7 +79,7 @@
 				{
 					/* Open this row */
 					element.className="glyphicon glyphicon-minus";
-					table.fnOpen( nTr, fnFormatDetails(nTr.id), 'details text-center' );
+					table.fnOpen( nTr, fnFormatDetails(nTr.id, nTr.getAttribute('etat')), 'details text-center' );
 				}
 			}	
 

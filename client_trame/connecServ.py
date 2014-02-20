@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import telnetlib
 import sys
 import time
@@ -5,12 +8,23 @@ import parsing as p
 import dbutils
 import analyseur as a
 
+
+def traitementLearn(trame):
+
+	if not dbutils.getCapteur(trame.id):
+		print "nouveau capteur"
+		dbutils.addLearn(trame.analyseLearn(),trame.id)
+	
 def traitement(trame):
 	if trame.isLearn():
+		print "trame de learn"
 		print trame.analyseLearn()
+		traitementLearn(trame)
 	else:
-		print "bite"
-		#a.analyse(dbutils.getlearn(int(trame.id,16)),trame)
+		print "trame de données"
+		if dbutils.getCapteur(trame.id):
+			print "capteur dans la base"
+			a.analyse(dbutils.getlearn(trame.id),trame)
 
 def main():
 	
@@ -40,7 +54,6 @@ def main():
 		print tramesbrutes
 		trames = p.parse_liste(tramesbrutes)
 		for trame in trames:
-			print "lol"
 			traitement(trame)
 		print "---------------------------------------------------------------------"
 		time.sleep(1)

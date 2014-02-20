@@ -218,31 +218,24 @@ class DefaultController extends Controller
         return $this->render('GhomeContentBundle::listActionneurs.html.twig', array('actionneurs' => $actionneurs, 'form' => $form->createView()));
     }
 
-    public function actionneurOnAction(Request $request) {
-       $idActionneur = $request->get('idActionneur');
+    public function actionneurStateAction(Request $request) {
+        $idActionneur = $request->get('idActionneur');
+        $currentState = $request->get('currentState');
+        $newState = 1-$currentState;
+
+        //die(var_dump(strval($newState)));
 
         $em = $this->getDoctrine()->getManager();
 
         $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
         $actionneur = $actionneurRepository->findOneById($idActionneur);
 
-       $last_line = system('python ../../ActionneurPrise.py '. strval($actionneur->getNumero()). ' 1', $retval);
+        $last_line = system('python ../../ActionneurPrise.py '. strval($actionneur->getNumero()). strval($newState), $retval);
 
-       return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
+        $actionneur->setEtat(strval($newState));
+        $em->flush();
+        return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
     }
-
-    public function actionneurOffAction(Request $request) {
-           $idActionneur = $request->get('idActionneur');
-
-            $em = $this->getDoctrine()->getManager();
-
-            $actionneurRepository = $em->getRepository('GhomeContentBundle:Actionneur');
-            $actionneur = $actionneurRepository->findOneById($idActionneur);
-
-           $last_line = system('python ../../ActionneurPrise.py '. strval($actionneur->getNumero()). ' 0', $retval);
-
-           return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'actionneur')));
-        }
 
     public function deleteActionneurAction(Request $request) {
         $idActionneur = $request->get('idActionneur');

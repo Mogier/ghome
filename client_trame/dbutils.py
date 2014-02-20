@@ -1,14 +1,30 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import MySQLdb
 
 HOST = "localhost"
 USER = "root"
 psswd = "truc"
-BASE = "geHome"
+BASE = "ghome"
 
-def getlearn(id):
+
+def addRelever(idProp,idTimestamp,valeur):
 	db = connect_db()
 
-	sql = "SELECT trameLearn FROM Capteur WHERE id='%d'"% id
+	sql = "INSERT INTO Relever (id_Propriete,id_DateHeure,valeur) VALUES ('%d','%d','%s')"%(idprop,idTimestamp,valeur)
+
+	try:
+		curs = db.cursor()
+		curs.execute(sql)
+		db.commit()
+	except Exception, e:
+		print e
+		db.rollback()
+		
+def getIdPropieteByLabel(label):
+	db = connect_db()
+	sql = "SELECT Propriete.id FROM Propriete JOIN TypeProprieteWHERE Propriete.id_TypePropriete = TypePropriete.idAND TypePropriete.label = '%s'"%label
 
 	try:
 		curs = db.cursor()
@@ -17,14 +33,93 @@ def getlearn(id):
 	except Exception, e:
 		print e
 
-	print res
+	return res[0]
+def createTimestamp(timestamp):
+	addTimestamp(timestamp)
+	return getTimestamp(timestamp)
 
-	return [res[0:2],res[2:4],res[4:6]]
+def addTimestamp(timestamp):
+	db = connect_db()
 
+	sql = "INSERT INTO DateHeure (dateReleve) VALUES ('%s')" %timestamp.isoformat()
+
+	try:
+		curs = db.cursor()
+		curs.execute(sql)
+		db.commit()
+	except Exception, e:
+		print e
+		db.rollback()
+
+def getTimestamp(timestamp):
+	db = connect_db()
+
+	sql = "SELECT id FROM DateHeure WHERE dateReleve='%s'" % timestamp.isoformat()
+
+	try:
+		curs = db.cursor()
+		curs.execute(sql)
+		res = curs.fetchone()
+	except Exception, e:
+		print e
+
+	return res[0]
+def getidTypePropriete(label):
+	db = connect_db()
+
+	sql = "SELECT id FROM TypePropriete WHERE label='%s'" %label
+
+	try:
+		curs = db.cursor()
+		curs.execute(sql)
+		res = curs.fetchone()
+	except Exception, e:
+		print e
+
+	return res[0]
+	
+def getlearn(id):
+	db = connect_db()
+
+	sql = "SELECT trameLearn FROM Capteur WHERE idPhysique='%s'"% id
+	#print sql   
+	try:
+		curs = db.cursor()
+		curs.execute(sql)
+		res = curs.fetchone()
+	except Exception, e:
+		print e
+
+	
+	return res[0]
+
+def getCapteur(id):
+	 db = connect_db()
+
+	 sql = "SELECT * FROM Capteur WHERE idPhysique='%s'"% id
+	 #print sql
+	 try:
+	 	curs = db.cursor()
+	 	curs.execute(sql)
+	 	res = curs.fetchone()
+	 except Exception, e:
+	 	print e
+
+	 return res
+
+def addLearn(learn,id):
+	print "ajout de la trame de learn dans TrameLearn"
+	db = connect_db()
+
+	sql = "INSERT INTO TrameLearn (trame,idPhysiqueCapteur) VALUES ('%s','%s')"%(learn[0]+learn[1]+learn[2],id)
+	#print sql
+	try:
+		curs = db.cursor()
+		curs.execute(sql)
+		db.commit()
+	except Exception,e:
+		print e
+		db.rollback()
 def connect_db():
-	#MySQLdb.connect("host","user","psswd","base")
 	db = MySQLdb.connect(HOST,USER,psswd,BASE)
 	return db
-
-def close_db(db):
-	db.close()

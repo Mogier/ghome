@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import Trame
   
 def parse_liste(trames):
@@ -10,7 +13,6 @@ def parse_liste(trames):
 		org = trame [2:4]
 		data = trame [4:12]
 		id = trame [12:20]
-		print id
 		status = trame [20:22]
 		checkSum = trame [22:24]
 
