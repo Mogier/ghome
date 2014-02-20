@@ -9,12 +9,6 @@ $(function() {
 		$.get("content/space", function(msg){
 
 			$("#injectedVue").html(msg);
-
-			buttons = $('table').find('button');
-			
-			$.each(buttons, function( key, button) {
-
-			});
 		});
 	});
 
@@ -41,5 +35,4 @@ $(function() {
 			$("#injectedVue").html(msg);
 		});
 	});
-
 });
