@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Ghome\ContentBundle\Entity\Capteur;
 use Ghome\ContentBundle\Entity\Actionneur;
 use Ghome\ContentBundle\Entity\Espace;
+use Ghome\ContentBundle\Entity\TypePropriete;
+use Ghome\ContentBundle\Entity\Propriete;
 //Forms
 use Ghome\ContentBundle\Form\EspaceType;
 use Ghome\ContentBundle\Form\CapteurType;
@@ -96,16 +98,42 @@ class DefaultController extends Controller
             {
                 $em = $this->getDoctrine()->getManager();
 
-                $res = $TrameLearnRepository->findIdPhysiqueByTrame($form->get('tramelearn')->getData());
+                $trameLearn = $form->get('tramelearn')->getData();
+                $res = $TrameLearnRepository->findIdPhysiqueByTrame($trameLearn);
                 $capteur->setIdPhysique($res[0]["idPhysiqueCapteur"]);
+                $em->persist($capteur);
+
+                switch($trameLearn) {
+
+                    case "060001":  $propriete = new Propriete();
+                                    $propriete->setIdCapteur($capteur);
+                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('switch'));
+                                    $em->persist($propriete);
+                        break;
+                    case "070801":  $propriete = new Propriete();
+                                    $propriete->setIdCapteur($capteur);
+                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Lux'));
+                                    $em->persist($propriete);
+                                    $propriete2 = new Propriete();
+                                    $propriete2->setIdCapteur($capteur);
+                                    $propriete2->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Gens'));
+                                    $em->persist($propriete2);
+                        break;
+                    case "070205":  $propriete = new Propriete();
+                                    $propriete->setIdCapteur($capteur);
+                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Celsius'));
+                                    $em->persist($propriete);
+                        break;
+                } 
+
+
 
                 $TrameLearns = $TrameLearnRepository->findTrameLearnByIdPhysique($res[0]["idPhysiqueCapteur"]);
-
                 foreach ($TrameLearns as $key => $trame) {
                     
                     $em->remove($trame);
                 }
-                $em->persist($capteur);
+                
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add('notice','Le capteur a bien été ajouté');
