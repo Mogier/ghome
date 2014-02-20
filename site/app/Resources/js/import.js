@@ -35,4 +35,15 @@ $(function() {
 			$("#injectedVue").html(msg);
 		});
 	});
+	$('a[href$="historique"]').click(function(e) {
+
+		e.preventDefault();
+
+		$("#flashMessage").empty();
+
+		$.get("content/historique", function(msg){
+
+			$("#injectedVue").html(msg);
+		});
+	});
 });

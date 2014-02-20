@@ -13,14 +13,19 @@ use Ghome\ContentBundle\Entity\Propriete;
 use Ghome\ContentBundle\Form\EspaceType;
 use Ghome\ContentBundle\Form\CapteurType;
 use Ghome\ContentBundle\Form\ActionneurType;
+//Serial
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
     public function homepageAction(Request $request)
-    {
-
+    {    
         $content = $request->get('content');
 
         if(strcmp($content, "capteur") == 0) {
@@ -69,9 +74,49 @@ class DefaultController extends Controller
 
             return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'spaces' => $spaces, 'form' => $form->createView()));
         }
+        else if (strcmp($content, "historique") == 0) {
+            $em = $this->getDoctrine()->getManager();
+
+            $capteursRepository = $em->getRepostiory('GhomeContentBundle:Capteur');
+            $capteurs = $capteursRepository->findAll();
+
+            return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => $content, 'capteurs' => $capteurs));
+        }
 
 
         return $this->render('GhomeContentBundle::accueil.html.twig', array('content' => ""));
+    }
+
+    public function historiqueAction() {
+        $em = $this->getDoctrine()->getManager();
+
+        $capteursRepository = $em->getRepository('GhomeContentBundle:Capteur');
+        $capteurs = $capteursRepository->findAll();
+        return $this->render('GhomeContentBundle::historique.html.twig', array('capteurs' => $capteurs));
+    }
+
+    public function donneesCapteurAction(Request $request) {
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new GetSetMethodNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $idCapteur = $request->get('idCapteur');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery(
+            'SELECT p.id, d.datereleve, r.valeur
+            FROM GhomeContentBundle:Propriete p, GhomeContentBundle:Relever r, GhomeContentBundle:DateHeure d, GhomeContentBundle:Capteur c
+            WHERE  p.idCapteur= c.id AND r.idDateheure=d.id AND r.idPropriete=p.id AND c.id=:idCapteur'
+        )->setParameter('idCapteur', $idCapteur);
+
+        $datas = $query->getResult();
+
+        //$test='[{"id":1,"datereleve":"2010-01-01 00:00:00","valeur":"574"},{"id":1,"datereleve":"2010-01-014 00:00:00","valeur":"592"}]';
+        
+        //return new Response($test);
+        return new Response(json_encode($datas));
+        //return new Response($serializer->serialize($datas, 'json'));
     }
 
     public function addCapteurAction(Request $request)
@@ -261,6 +306,8 @@ class DefaultController extends Controller
                 return $this->redirect($this->generateUrl('ghome_content_addCapteur'));
             case "actionneur":
                 return $this->redirect($this->generateUrl('ghome_content_listActionneurs'));
+            case "historique":
+                return $this->redirect($this->generateUrl('ghome_content_historique'));
     	}
     }
 

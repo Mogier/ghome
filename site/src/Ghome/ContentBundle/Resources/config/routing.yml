@@ -41,3 +41,11 @@ ghome_content_actionneurState:
 ghome_content_deleteActionneur:
     pattern: /deleteActionneur
     defaults: { _controller: GhomeContentBundle:Default:deleteActionneur }
+
+ghome_content_historique:
+    pattern: /historique
+    defaults: { _controller: GhomeContentBundle:Default:historique }
+
+ghome_content_donneesCapteur:
+    pattern: /donneesCapteur
+    defaults: { _controller: GhomeContentBundle:Default:donneesCapteur }

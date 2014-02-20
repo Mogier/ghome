@@ -72,29 +72,6 @@ class Actionneur
     }
 
     /**
-     * Set tramelearn
-     *
-     * @param string $tramelearn
-     * @return Actionneur
-     */
-    public function setTramelearn($tramelearn)
-    {
-        $this->tramelearn = $tramelearn;
-
-        return $this;
-    }
-
-    /**
-     * Get tramelearn
-     *
-     * @return string 
-     */
-    public function getTramelearn()
-    {
-        return $this->tramelearn;
-    }
-
-    /**
      * Set idEspace
      *
      * @param \Ghome\ContentBundle\Entity\Espace $idEspace
