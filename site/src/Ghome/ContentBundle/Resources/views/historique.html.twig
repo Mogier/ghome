@@ -1,0 +1,66 @@
+<body>
+	<h3>Historiques des données des capteurs</h3>
+
+	<div class="row" style="height: 150px;">
+		<div id="colOne" class="col-md-2" style="overflow: scroll; height: 430px">	
+			<div class="btn-group-vertical">
+				{% for cap in capteurs %}
+					<button type="button" class="btn btn-default" onclick="putChart({{ cap.id }});">Capteur {{ cap.idPhysique}}</button>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="col-md-10">
+			<div id="chartdiv" style="width: 640px; height: 400px;"></div>
+		</div>
+	</div>
+</body>
+
+
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/amcharts/2.11.3/amcharts.js"></script>
+<script type="text/javascript">
+
+function putChart(idCapteur){
+	$.get("donneesCapteur?idCapteur=" + idCapteur,
+	function(JSONMoche){
+		var parsed = JSON.parse(JSONMoche);
+		chart = new AmCharts.AmSerialChart();
+		chart.pathToImages = "http://www.amcharts.com/lib/images/";
+
+		var JSONBeau=[];
+
+		for (var i=0; i<parsed.length;i++){
+			var currentJSON=parsed[i];
+			var newJSON={};
+			newJSON.id = currentJSON.id;			
+			newJSON.datereleve=currentJSON.datereleve.date;
+			newJSON.valeur=currentJSON.valeur;
+			JSONBeau.push(newJSON);
+		}
+
+		chart.dataProvider = JSONBeau;
+		chart.categoryField = "datereleve";
+		chart.dataDateFormat = "YYYY-MM-DD H:i:s";
+
+		var graph1 = new AmCharts.AmGraph();
+		  graph1.valueField = "valeur";
+		  graph1.bullet = "round";
+		  graph1.bulletBorderColor = "#FFFFFF";
+		  graph1.bulletBorderThickness = 2;
+		  graph1.lineThickness = 2;
+		  graph1.lineAlpha = 0.5;
+		  chart.addGraph(graph1);
+
+		// CATEGORY AXIS 
+		chart.categoryAxis.parseDates = true;
+
+		// WRITE
+		chart.write("chartdiv");
+});
+
+}
+	function traitementJSONMoche(JSONMoche) {
+		
+	}
+</script>
