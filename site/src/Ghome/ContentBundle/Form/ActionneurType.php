@@ -32,7 +32,7 @@ class ActionneurType extends AbstractType {
 
         $builder
             ->add('numero','integer')
-            ->add($builder->create('idEspace', 'choice', array('choices' => $formSpace, 'required'  => true, 'expanded' => true,'mapped' => true, 'multiple' => false ))
+            ->add($builder->create('idEspace', 'choice', array('choices' => $formSpace, 'required'  => true, 'expanded' => false,'mapped' => true, 'multiple' => false ))
                     ->addModelTransformer($spaceTransformer)
             )
             ->add('save', 'submit');
