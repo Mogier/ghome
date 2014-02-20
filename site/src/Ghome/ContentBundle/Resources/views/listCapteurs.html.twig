@@ -21,9 +21,12 @@
 	</tbody>
 </table>
 
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-	Ajout Capteur
-</button>
+<p class="text-right">
+	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+		Ajout Capteur
+	</button>
+</p>
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -47,7 +50,6 @@
 	$(function() {
 		$('#table_spaces').dataTable({
 			"sDom": "<'row'<'col-md-4'l><'col-md-4'f>r>t<'row'<'col-md-4'i><'col-md-4'p>>"
-			"sPaginationType": "bootstrap"
 		});
 	});
 </script>

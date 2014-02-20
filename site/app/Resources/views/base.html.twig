@@ -9,6 +9,13 @@
                 <link rel="stylesheet" href="{{ asset_url }}" />
             {% endstylesheets %}
         {% endblock %}
+        {% block javascripts %}
+            <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+            <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+            {% javascripts '%kernel.root_dir%/Resources/js/*' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </head>
     <body>
 
@@ -67,12 +74,5 @@
             {% endblock %}
             </div>
         </div>
-        {% block javascripts %}
-            <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-            <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-            {% javascripts '%kernel.root_dir%/Resources/js/*' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endblock %}
     </body>
 </html>
