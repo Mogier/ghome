@@ -919,11 +919,11 @@ CREATE TABLE IF NOT EXISTS `TypePropriete` (
 --
 
 INSERT INTO `TypePropriete` (`id`, `label`) VALUES
-(1, 'eleifend nec,'),
-(2, 'ipsum. Phasellus'),
-(3, 'Proin ultrices.'),
-(4, 'vulputate velit'),
-(5, 'congue turpis.');
+(1, 'Switch'),
+(2, 'Lux'),
+(3, 'Gens'),
+(4, 'Celsius'),
+(5, 'Inte');
 
 -- --------------------------------------------------------
 

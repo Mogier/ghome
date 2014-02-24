@@ -168,6 +168,10 @@ class DefaultController extends Controller
                                     $propriete->setIdCapteur($capteur);
                                     $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Celsius'));
                                     $em->persist($propriete);
+                    case "050201":  $propriete = new Propriete();
+                                    $propriete->setIdCapteur($capteur);
+                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Inte'));
+                                    $em->persist($propriete);
                         break;
                 } 
 
