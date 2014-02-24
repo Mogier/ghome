@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import dbutils
 
 typeswitch = ["060001"]
 typepresence = ["070801"]
 typetemp = ["070205"]
-
+typeinte = ["050201"]
 def analyse(learn,trame):
 	if learn in typeswitch:
 		print "capteur switch"
@@ -16,6 +16,10 @@ def analyse(learn,trame):
 	elif learn in typetemp:
 		print "capteur de temperature"
 		anatemp(trame)
+	elif learn in typeinte:
+		print "interrupteur"
+		anaint(trame)
+		
 
 def anaswitch(trame):
 	print "capteur id :"+trame.id
@@ -57,3 +61,30 @@ def anatemp(trame):
 
 	print "capteur id "+trame.id
 	print "Temperature :"+str(temp)
+
+def anaint(trame):
+
+	#idProp = dbutils.getIdPropieteByLabel("Inte")
+	
+
+	inte = int(trame.data[0:2],16)
+	inte>>=5
+	press = int(trame.data[0:2],16)&int(0b10000)
+	print inte
+	if press == 16:
+		press = True
+	else:
+		press = False
+	print press
+	if inte == 0 and press == 1:
+		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		dbutils.addRelever(idProp,idTimestamp,0)
+	elif inte == 1 and press == 1:
+		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		dbutils.addRelever(idProp,idTimestamp,1)
+	elif inte == 2 and press == 1:
+		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		dbutils.addRelever(idProp,idTimestamp,2)
+	elif inte == 3 and press == 1:
+		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		dbutils.addRelever(idProp,idTimestamp,3)
