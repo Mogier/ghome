@@ -243,6 +243,25 @@ class DefaultController extends Controller
         return $this->render('GhomeContentBundle::listCapteurs.html.twig', array('capteurs' => $capteurs, 'form' => $form->createView()));
     }
 
+    public function deleteCapteurAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $proprietes = $em->getRepository('GhomeContentBundle:Propriete')->findByIdCapteur((int)$id);
+        foreach ($proprietes as $key => $propriete) {
+            $em->remove($propriete);
+        }
+
+        $capteur = $em->getRepository('GhomeContentBundle:Capteur')->findOneById((int)$id);
+        $em->remove($capteur);
+
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice','Le capteur a bien été retiré');
+
+        return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'capteur')));
+    }
+
     public function listActionneursAction() {
 
         $em = $this->getDoctrine()->getManager();
@@ -360,7 +379,7 @@ class DefaultController extends Controller
         }
         catch (\Doctrine\DBAL\DBALException $e) {
 
-            $this->get('session')->getFlashBag()->add('warning','Un ou des capteurs sont attachés à cet espace. Supression impossible');
+            $this->get('session')->getFlashBag()->add('warning','Au moins un capteur ou un actionneur est attaché à cet espace. Supression impossible');
 
             return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'space')));
         }

@@ -34,6 +34,10 @@ ghome_content_deleteSpace:
     pattern: /deleteSpace/{id}
     defaults: { _controller: GhomeContentBundle:Default:deleteSpace }
 
+ghome_content_deleteCapteur:
+    pattern: /deleteCapteur/{id}
+    defaults: { _controller: GhomeContentBundle:Default:deleteCapteur }
+
 ghome_content_actionneurState:
     pattern: /actionneurState
     defaults: { _controller: GhomeContentBundle:Default:actionneurState }
