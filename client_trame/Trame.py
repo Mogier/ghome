@@ -14,7 +14,7 @@ class Trame:
 		self.id = id
 		self.status = status
 		self.checksum = checksum
-		self.timeStamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
+		self.timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
 
 	def isLearn(self):
 		if self.org in ["06","07"]:
@@ -59,20 +59,29 @@ class Trame:
 		+ "\nid : " + self.id \
 		+ "\nstatus : " + self.status \
 		+ "\nchecksum : " + self.checksum \
-		+ "\nTimeStamp : " + str(self.timeStamp)
+		+ "\nTimeStamp : " + str(self.timestamp)
 
 	def checkIntegrity(self):
-		#todo implem' crc
+
+		controle = 0
+		controle += int(self.taille,16)
+		controle += int(self.org,16)
+		controle += int(self.data[0:2],16)
+		controle += int(self.data[2:4],16)
+		controle += int(self.data[4:6],16)
+		controle += int(self.data[6:8],16)
+		controle += int(self.id[0:2],16)
+		controle += int(self.id[2:4],16)
+		controle += int(self.id[4:6],16)
+		controle += int(self.id[6:8],16)
+		controle += int(self.status,16)
+
+		print "controle"
+		print hex(controle)[2:]
+		print self.checksum
 		return True
 
 	def isOK(self):
 		self.checkIntegrity()
-		if (len(self.taille) !=2) \
-		or (len(self.org) !=2) \
-		or (len(self.data) !=8) \
-		or (len(self.id) !=8) \
-		or (len(self.status) != 2) \
-		or (len(self.checksum) !=2):
-			return False
-		else:
-			return True 
+
+		return True 

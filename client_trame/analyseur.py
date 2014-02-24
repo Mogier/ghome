@@ -50,7 +50,7 @@ def anapresence(trame):
 
 	dbutils.addRelever(idPropLux,idTimestamp,lux)
 	dbutils.addRelever(idPropGens,idTimestamp,gens)
-	print valeurint
+
 
 def anatemp(trame):
 	temp = ((255 - int(trame.data[4:6],16) )* 40) / 255.

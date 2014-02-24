@@ -6,13 +6,13 @@ import MySQLdb
 HOST = "localhost"
 USER = "root"
 psswd = "truc"
-BASE = "ghome"
+BASE = "GeHome"
 
 
 def addRelever(idProp,idTimestamp,valeur):
 	db = connect_db()
 
-	sql = "INSERT INTO Relever (id_Propriete,id_DateHeure,valeur) VALUES ('%d','%d','%s')"%(idprop,idTimestamp,valeur)
+	sql = "INSERT INTO Relever (id_Propriete,id_DateHeure,valeur) VALUES ('%d','%d','%s')"%(idProp,idTimestamp,valeur)
 
 	try:
 		curs = db.cursor()
@@ -24,12 +24,13 @@ def addRelever(idProp,idTimestamp,valeur):
 		
 def getIdPropieteByLabel(label):
 	db = connect_db()
-	sql = "SELECT Propriete.id FROM Propriete JOIN TypeProprieteWHERE Propriete.id_TypePropriete = TypePropriete.idAND TypePropriete.label = '%s'"%label
-
+	sql = "SELECT Propriete.id FROM Propriete JOIN TypePropriete WHERE Propriete.id_TypePropriete = TypePropriete.id AND TypePropriete.label = '%s'"%label
+	print sql
 	try:
 		curs = db.cursor()
 		curs.execute(sql)
 		res = curs.fetchone()
+		print "lol"
 	except Exception, e:
 		print e
 
@@ -41,7 +42,7 @@ def createTimestamp(timestamp):
 def addTimestamp(timestamp):
 	db = connect_db()
 
-	sql = "INSERT INTO DateHeure (dateReleve) VALUES ('%s')" %timestamp.isoformat()
+	sql = "INSERT INTO DateHeure (dateReleve) VALUES ('%s')" %timestamp
 
 	try:
 		curs = db.cursor()
@@ -54,7 +55,7 @@ def addTimestamp(timestamp):
 def getTimestamp(timestamp):
 	db = connect_db()
 
-	sql = "SELECT id FROM DateHeure WHERE dateReleve='%s'" % timestamp.isoformat()
+	sql = "SELECT id FROM DateHeure WHERE dateReleve='%s'" % timestamp
 
 	try:
 		curs = db.cursor()
