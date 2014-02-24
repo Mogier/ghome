@@ -5,12 +5,12 @@ namespace Ghome\ContentBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Typepropriete
+ * TypePropriete
  *
  * @ORM\Table(name="TypePropriete")
  * @ORM\Entity
  */
-class Typepropriete
+class TypePropriete
 {
     /**
      * @var integer
@@ -44,7 +44,7 @@ class Typepropriete
      * Set label
      *
      * @param string $label
-     * @return Typepropriete
+     * @return TypePropriete
      */
     public function setLabel($label)
     {
