@@ -45,9 +45,24 @@
 			        {{ form_errors(form.idEspace) }}
 			        {{ form_widget(form.idEspace) }}
 			        <br>
-				    {{ form_label(form.tramelearn, 'Numéro du capteur') }}
-			        {{ form_errors(form.tramelearn) }}
-			        {{ form_widget(form.tramelearn) }}
+			        <br>
+			        <fieldset>
+			        	<legend>Ajout automatique</legend>
+					    {{ form_label(form.tramelearn, 'Numéro du capteur :') }}
+				        {{ form_errors(form.tramelearn) }}
+				        {{ form_widget(form.tramelearn) }}
+			        </fieldset>
+			        <br>
+			        <fieldset>
+			        	<legend>Ajout manuel</legend>
+			        {{ form_label(form.idPhysiqueBis, 'Numero du capteur :') }}
+			        {{ form_errors(form.idPhysiqueBis) }}
+			        {{ form_widget(form.idPhysiqueBis) }}
+			        <br>
+			        {{ form_label(form.tramelearnBis, 'Tramelearn :') }}
+			        {{ form_errors(form.tramelearnBis) }}
+			        {{ form_widget(form.tramelearnBis) }}
+			        <br>
 			        <br>
 			        <div>
 				        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}}) }}

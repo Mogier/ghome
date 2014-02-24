@@ -45,6 +45,8 @@ class CapteurType extends AbstractType {
             ->add($builder->create('tramelearn', 'choice', array('choices' => $formId, 'required'  => true, 'expanded' => false,'mapped' => true, 'multiple' => false ))
                     ->addModelTransformer($trameTransformer)
             )
+            ->add('idPhysiqueBis', 'text', array('mapped' => false))
+            ->add('tramelearnBis', 'text', array('mapped' => false))
             ->add('save', 'submit');
     }
 
