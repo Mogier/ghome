@@ -143,49 +143,68 @@ class DefaultController extends Controller
             {
                 $em = $this->getDoctrine()->getManager();
 
-                $trameLearn = $form->get('tramelearn')->getData();
-                $res = $TrameLearnRepository->findIdPhysiqueByTrame($trameLearn);
-                $capteur->setIdPhysique($res[0]["idPhysiqueCapteur"]);
-                $em->persist($capteur);
+                if($form->get('tramelearnBis')->getData() != null && $form->get('idPhysiqueBis')->getData() != null) {
 
-                switch($trameLearn) {
+                    if($form->get('tramelearnBis')->getData() == "050201") {
 
-                    case "060001":  $propriete = new Propriete();
-                                    $propriete->setIdCapteur($capteur);
-                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('switch'));
-                                    $em->persist($propriete);
-                        break;
-                    case "070801":  $propriete = new Propriete();
-                                    $propriete->setIdCapteur($capteur);
-                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Lux'));
-                                    $em->persist($propriete);
-                                    $propriete2 = new Propriete();
-                                    $propriete2->setIdCapteur($capteur);
-                                    $propriete2->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Gens'));
-                                    $em->persist($propriete2);
-                        break;
-                    case "070205":  $propriete = new Propriete();
-                                    $propriete->setIdCapteur($capteur);
-                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Celsius'));
-                                    $em->persist($propriete);
-                    case "050201":  $propriete = new Propriete();
-                                    $propriete->setIdCapteur($capteur);
-                                    $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Inte'));
-                                    $em->persist($propriete);
-                        break;
-                } 
+                        $capteur->setIdPhysique($form->get('idPhysiqueBis')->getData());
+                        $capteur->setTramelearn($form->get('tramelearnBis')->getData());
+                        $em->persist($capteur);
 
+                        $propriete = new Propriete();
+                        $propriete->setIdCapteur($capteur);
+                        $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Inte'));
+                        $em->persist($propriete);
 
+                        $this->get('session')->getFlashBag()->add('notice','Le capteur a bien été ajouté');
+                    }
+                    else {
+                        $this->get('warning')->getFlashBag()->add('notice','La trame est de type inconnu. Capteur non ajouté');
+                    }
 
-                $TrameLearns = $TrameLearnRepository->findTrameLearnByIdPhysique($res[0]["idPhysiqueCapteur"]);
-                foreach ($TrameLearns as $key => $trame) {
-                    
-                    $em->remove($trame);
+                }
+                else {
+
+                    $trameLearn = $form->get('tramelearn')->getData();
+                    $res = $TrameLearnRepository->findIdPhysiqueByTrame($trameLearn);
+                    $capteur->setIdPhysique($res[0]["idPhysiqueCapteur"]);
+                    $em->persist($capteur);
+
+                    switch($trameLearn) {
+
+                        case "060001":  $propriete = new Propriete();
+                                        $propriete->setIdCapteur($capteur);
+                                        $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('switch'));
+                                        $em->persist($propriete);
+                            break;
+                        case "070801":  $propriete = new Propriete();
+                                        $propriete->setIdCapteur($capteur);
+                                        $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Lux'));
+                                        $em->persist($propriete);
+                                        $propriete2 = new Propriete();
+                                        $propriete2->setIdCapteur($capteur);
+                                        $propriete2->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Gens'));
+                                        $em->persist($propriete2);
+                            break;
+                        case "070205":  $propriete = new Propriete();
+                                        $propriete->setIdCapteur($capteur);
+                                        $propriete->setIdTypepropriete($em->getRepository('GhomeContentBundle:TypePropriete')->findOneByLabel('Celsius'));
+                                        $em->persist($propriete);
+                            break;
+                    }
+
+                    $TrameLearns = $TrameLearnRepository->findTrameLearnByIdPhysique($res[0]["idPhysiqueCapteur"]);
+                    foreach ($TrameLearns as $key => $trame) {
+                        
+                        $em->remove($trame);
+                    }
+
+                    $this->get('session')->getFlashBag()->add('notice','Le capteur a bien été ajouté');
                 }
                 
                 $em->flush();
 
-                $this->get('session')->getFlashBag()->add('notice','Le capteur a bien été ajouté');
+                
 
                 return $this->redirect($this->generateUrl('ghome_content_homepage', array('content' => 'capteur')));
             }
