@@ -64,7 +64,7 @@ def anatemp(trame):
 
 def anaint(trame):
 
-	#idProp = dbutils.getIdPropieteByLabel("Inte")
+	idProp = dbutils.getIdPropieteByLabel("Inte")
 	
 
 	inte = int(trame.data[0:2],16)
@@ -77,14 +77,14 @@ def anaint(trame):
 		press = False
 	print press
 	if inte == 0 and press == 1:
-		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		idTimestamp = dbutils.createTimestamp(trame.timestamp)
 		dbutils.addRelever(idProp,idTimestamp,0)
 	elif inte == 1 and press == 1:
-		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		idTimestamp = dbutils.createTimestamp(trame.timestamp)
 		dbutils.addRelever(idProp,idTimestamp,1)
 	elif inte == 2 and press == 1:
-		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		idTimestamp = dbutils.createTimestamp(trame.timestamp)
 		dbutils.addRelever(idProp,idTimestamp,2)
 	elif inte == 3 and press == 1:
-		idTimestamp = dbtuils.createTimestamp(trame.timestamp)
+		idTimestamp = dbutils.createTimestamp(trame.timestamp)
 		dbutils.addRelever(idProp,idTimestamp,3)

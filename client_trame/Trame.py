@@ -76,12 +76,18 @@ class Trame:
 		controle += int(self.id[6:8],16)
 		controle += int(self.status,16)
 
+		strControle = hex(controle)[2:].upper()
+
 		print "controle"
 		print hex(controle)[2:]
 		print self.checksum
-		return True
+		if strControle[len(strControle)-2:] == self.checksum:
+			return True
+		else:
+			return False
 
 	def isOK(self):
-		self.checkIntegrity()
-
-		return True 
+		if self.checkIntegrity():
+			return True
+		else:
+			return False 
