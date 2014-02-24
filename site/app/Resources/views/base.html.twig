@@ -5,6 +5,16 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets  %}
             <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+            {% stylesheets '%kernel.root_dir%/Resources/css/*' filter='cssrewrite' %}
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+        {% block javascripts %}
+            <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+            <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+            {% javascripts '%kernel.root_dir%/Resources/js/*' %}
+                <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
     </head>
     <body>
@@ -14,7 +24,7 @@
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
                     <div class="navbar navbar-inverse">
-                        <a class="navbar-brand">En tête</a>
+                        <a class="navbar-brand text-center">Module de gestion GeHome</a>
                     </div>
                 </div>
             </div>
@@ -54,7 +64,7 @@
 
                       <li><a href="{{ path('ghome_content_addContent', {'idString': 'space'}) }}">Espaces</a>
                       </li>
-                      <li><a href="#">Historique</a></li>
+                      <li><a href="{{ path('ghome_content_addContent', {'idString': 'historique'}) }}">Historique</a></li>
                     </ul>
                 </div>  
             {% endblock %}
@@ -64,12 +74,5 @@
             {% endblock %}
             </div>
         </div>
-        {% block javascripts %}
-            <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-            <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-            {% javascripts '%kernel.root_dir%/Resources/js/*' %}
-                <script type="text/javascript" src="{{ asset_url }}"></script>
-            {% endjavascripts %}
-        {% endblock %}
     </body>
 </html>

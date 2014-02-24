@@ -1,3 +1,5 @@
+<h3>Gestion des capteurs :</h3>
+<br>
 <table id="table_spaces" class="table table-bordered table-hover table-striped">
 	<thead>
 		<tr id="search">
@@ -5,8 +7,8 @@
 			<th>Trame</th>
 			<th>Id Physique</th>
 			<th> </th>
-		</tr> 
-	</thead>					  
+		</tr>
+	</thead>				  
 	<tbody id="capteurs">	
 	{% for cp in capteurs %}
 			<tr id="{{ cp.id }}">
@@ -19,28 +21,48 @@
 	</tbody>
 </table>
 
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-	Ajout Capteur
-</button>
+<p class="text-right">
+	<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+		Ajout Capteur
+	</button>
+</p>
+
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel">Ajouter un espace</h4>
+				<h4 class="modal-title" id="myModalLabel">Ajouter un capteur </h4>
 			</div>
 			<div class="modal-body">
 				
 
-				{{ form(form) }}
+				{{ form_start(form) }}
+				    {{ form_errors(form) }}
 
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				    {{ form_label(form.idEspace, 'Nom de l\'espace :') }}
+			        {{ form_errors(form.idEspace) }}
+			        {{ form_widget(form.idEspace) }}
+			        <br>
+				    {{ form_label(form.tramelearn, 'Numéro du capteur') }}
+			        {{ form_errors(form.tramelearn) }}
+			        {{ form_widget(form.tramelearn) }}
+			        <br>
+			        <div>
+				        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}}) }}
+				    </div>
+
+				{{ form_end(form) }}
 			</div>
 		</div>
 	</div>
 </div>
 	
-	<script type="text/javascript">
-		$('#table_spaces').dataTable();
-	</script>
+<script type="text/javascript">
+	$(function() {
+		$('#table_spaces').dataTable({
+			"sDom": "<'row'<'col-md-4'l><'col-md-4'f>r>t<'row'<'col-md-4'i><'col-md-4'p>>"
+		});
+	});
+</script>

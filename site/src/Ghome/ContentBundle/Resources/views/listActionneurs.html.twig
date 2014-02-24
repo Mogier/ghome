@@ -1,20 +1,22 @@
-	<h3>Actionneurs</h3>
-
+	<h3>Gestion des actionneurs :</h3>
+	<br>
 	<table id="table_actionneurs" class="table table-bordered table-hover table-striped">
 		<thead>
 			<tr id="search">
 				<th style="width:10%">Details</th>
-				<th>Numero</th>
 				<th>Espace</th>
+				<th>Numero</th>
+				<th>Etat</th>
 				<th style="width:10%"> </th>
 			</tr> 
 		</thead>					  
 		<tbody id="actionneurs">	
 		{% for act in actionneurs %}
-				<tr id="{{ act.id }}">
+				<tr id="{{ act.id }}" etat="{{ act.etat }}">
 					  <td class="text-center"> <span class="badge"> <span onclick="fnDetails(this);" class="glyphicon glyphicon-plus"></span> </span> </td>
-					  <td> {{ act.numero }}</td>
 					  <td>{{ act.idEspace.id }}</td>
+					  <td> {{ act.numero }}</td>
+					  <td> {% if act.etat == 1%} ON {% else %} OFF {% endif %}</td>
 					  <td> <a type="button" class="btn btn-danger btn-sm" href="/ghome/site/web/app_dev.php/deleteActionneur?idActionneur={{act.id}}">Suppr</a></td>
 				</tr>	
 		{% endfor %}
@@ -32,12 +34,26 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="myModalLabel">Ajouter un espace</h4>
+					<h4 class="modal-title" id="myModalLabel">Ajouter un actionneur</h4>
 				</div>
 					<div class="modal-body">
-						{{ form(form) }}
+						
+						{{ form_start(form) }}
+						    {{ form_errors(form) }}
 
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						    {{ form_label(form.numero, 'Numéro de l\'actionneur :') }}
+					        {{ form_errors(form.numero) }}
+					        {{ form_widget(form.numero) }}
+					        <br>
+						    {{ form_label(form.idEspace, 'Nom de l\'espace:') }}
+					        {{ form_errors(form.idEspace) }}
+					        {{ form_widget(form.idEspace) }}
+					        <br>
+					        <br>
+					        <div>
+						        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success'}}) }}
+						    </div>
+						{{ form_end(form) }}
 					</div>
 				</div>
 			</div>
@@ -46,18 +62,25 @@
         <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 		<script type="text/javascript">
-		console.log("tutu");
-    		var table = $('#table_actionneurs').dataTable();
-			
 
-			function fnFormatDetails ( id )
+			var table;
+			$(function() {
+				 table = $('#table_actionneurs').dataTable({
+					"sDom": "<'row'<'col-md-4'l><'col-md-4'f>r>t<'row'<'col-md-4'i><'col-md-4'p>>"
+				});
+			});
+			
+			function fnFormatDetails ( id, etat )
 			{
-				var sOut = '<a style="width:30%" type="button" class="btn btn-success" href="/ghome/site/web/app_dev.php/actionneurOn?idActionneur='+id+'">On</a> ';
-				sOut+= '<a style="width:30%" type="button" class="btn btn-danger"  href="/ghome/site/web/app_dev.php/actionneurOff?idActionneur='+id+'">Off</a>';
+				var sOut = '';
+
+				if(etat==0){
+					sOut+='<a style="width:30%" type="button" class="btn btn-success" href="/ghome/site/web/app_dev.php/actionneurState?idActionneur='+id+'&currentState='+etat+'">On</a> ';
+				} else {
+					sOut+= '<a style="width:30%" type="button" class="btn btn-danger"  href="/ghome/site/web/app_dev.php/actionneurState?idActionneur='+id+'&currentState='+etat+'">Off</a>';
+				}
 				return sOut;
 			}
-
-
 
     		function fnDetails(element) 
     		{
@@ -72,7 +95,7 @@
 				{
 					/* Open this row */
 					element.className="glyphicon glyphicon-minus";
-					table.fnOpen( nTr, fnFormatDetails(nTr.id), 'details text-center' );
+					table.fnOpen( nTr, fnFormatDetails(nTr.id, nTr.getAttribute('etat')), 'details text-center' );
 				}
 			}	
 
